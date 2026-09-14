@@ -4,7 +4,7 @@
 
 MIT-Lizenz.
 
-Copyright (c) 2026 Roland (KRUG//STAMMTISCH)
+Copyright (c) 2026 Einzelstein Software
 
 Hiermit wird unentgeltlich jeder Person, die eine Kopie dieser Software und der zugehörigen
 Dokumentation erhält, die Erlaubnis erteilt, sie uneingeschränkt zu nutzen, zu kopieren, zu

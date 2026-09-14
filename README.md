@@ -8,7 +8,7 @@ Thema, das der Gastgeber vorgibt. Man sieht ihnen dabei zu, kann dazwischenreden
 Tisch legen und eine Pause einlegen. Am Ende entstehen ein Protokoll, ein PDF und eine Notiz im
 eigenen Wissensspeicher.
 
-Gebaut von Roland für seine eigenen Firmen, im Einsatz seit dem 4. September 2026.
+Gebaut von Roland (Einzelstein Software) für seine eigenen Firmen, im Einsatz seit dem 4. September 2026.
 
 ## Was wirklich drin ist
 
