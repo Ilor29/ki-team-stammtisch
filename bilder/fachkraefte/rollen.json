@@ -1,0 +1,193 @@
+{
+ "rollen": {
+  "sepp": {
+   "name": "Sepp",
+   "gruppe": "koordination",
+   "label": "Koordinator",
+   "desc": "Nimmt den Auftrag an, moderiert die Runde, sagt dir, wen wir noch brauchen."
+  },
+  "resi": {
+   "name": "Resi",
+   "gruppe": "marketing",
+   "label": "Markenwächter",
+   "desc": "Prüft alles Markenrelevante gegen CI, Maßkrug-Narrativ und Bio-Premium, bevor es raus geht."
+  },
+  "wastl": {
+   "name": "Wastl",
+   "gruppe": "marketing",
+   "label": "Text & Copy",
+   "desc": "Schreibt Produkttexte, Web-Copy, Presseantworten in eurer Stimme."
+  },
+  "social": {
+   "name": "Vroni",
+   "gruppe": "marketing",
+   "label": "Social (TikTok/YT/IG)",
+   "desc": "Plant Content für TikTok, YouTube und Instagram."
+  },
+  "webseo": {
+   "name": "Nadja",
+   "gruppe": "marketing",
+   "label": "Web & SEO",
+   "desc": "Kümmert sich um Website, Conversion, Bewertungen, Auffindbarkeit."
+  },
+  "ads": {
+   "name": "Kilian",
+   "gruppe": "marketing",
+   "label": "Performance & Ads",
+   "desc": "Google Ads, Amazon Ads, Budget & Kampagnensteuerung."
+  },
+  "pr": {
+   "name": "Lena",
+   "gruppe": "marketing",
+   "label": "PR & Kommunikation",
+   "desc": "Presse, Awards, öffentliche Auftritte."
+  },
+  "handel": {
+   "name": "Basti",
+   "gruppe": "vertrieb",
+   "label": "Handel & Gastro",
+   "desc": "Listungen, Distributoren, Gastro-Platzierung."
+  },
+  "ecom": {
+   "name": "Timo",
+   "gruppe": "vertrieb",
+   "label": "E-Commerce & Marktplätze",
+   "desc": "Amazon, eigener Shop, Marktplatz-Optimierung."
+  },
+  "finanz": {
+   "name": "Greta",
+   "gruppe": "finanzen",
+   "label": "Finanzen & Controlling",
+   "desc": "Marge, Break-even, Kapitalbedarf, Preiskalkulation."
+  },
+  "steuer": {
+   "name": "Anton",
+   "gruppe": "finanzen",
+   "label": "Steuer",
+   "desc": "Branntweinsteuer, USt., Einfuhrabgaben."
+  },
+  "werbe": {
+   "name": "Julia",
+   "gruppe": "recht",
+   "label": "Werbe- & Lebensmittelrecht",
+   "desc": "Alkoholwerbung, Kennzeichnung, LMIV."
+  },
+  "ip": {
+   "name": "Moritz",
+   "gruppe": "recht",
+   "label": "IP, Marke & Patent",
+   "desc": "Markenschutz, eure patentierte Flasche."
+  },
+  "arbeit": {
+   "name": "Petra",
+   "gruppe": "recht",
+   "label": "Arbeitsrecht",
+   "desc": "Verträge, Personalfragen."
+  },
+  "export": {
+   "name": "David",
+   "gruppe": "recht",
+   "label": "Regulatorik & Export-Recht",
+   "desc": "Bio-Zertifizierung, US-Zulassung (TTB/FDA/COLA)."
+  },
+  "logistik": {
+   "name": "Sven",
+   "gruppe": "operations",
+   "label": "Logistik & Zoll",
+   "desc": "Container, Incoterms, Versand, Zollabwicklung."
+  },
+  "design": {
+   "name": "Fine",
+   "gruppe": "operations",
+   "label": "Design",
+   "desc": "Label, Verpackung, visuelle Markenoptik."
+  },
+  "flori": {
+   "name": "Flori",
+   "gruppe": "info",
+   "label": "Recherche",
+   "desc": "Markt, Wettbewerb, Trends, Prospects, Awards."
+  },
+  "bene": {
+   "name": "Bene",
+   "gruppe": "praesentation",
+   "label": "Präsentation",
+   "desc": "Decks, Presse-Kits, Foto-Briefings."
+  }
+ },
+ "sitze": [
+  {
+   "idx": 0,
+   "x": 694,
+   "y": 363,
+   "h": 141,
+   "rolle": "sepp"
+  },
+  {
+   "idx": 1,
+   "x": 859,
+   "y": 393,
+   "h": 141,
+   "rolle": null
+  },
+  {
+   "idx": 2,
+   "x": 946,
+   "y": 435,
+   "h": 170,
+   "rolle": null
+  },
+  {
+   "idx": 3,
+   "x": 357,
+   "y": 449,
+   "h": 221,
+   "rolle": null
+  },
+  {
+   "idx": 4,
+   "x": 1013,
+   "y": 470,
+   "h": 173,
+   "rolle": null
+  },
+  {
+   "idx": 5,
+   "x": 432,
+   "y": 427,
+   "h": 169,
+   "rolle": null
+  },
+  {
+   "idx": 6,
+   "x": 221,
+   "y": 516,
+   "h": 250,
+   "rolle": null
+  },
+  {
+   "idx": 7,
+   "x": 495,
+   "y": 400,
+   "h": 162,
+   "rolle": null
+  },
+  {
+   "idx": 8,
+   "x": 1105,
+   "y": 533,
+   "h": 219,
+   "rolle": null
+  }
+ ],
+ "presets": [],
+ "gruppen": {
+  "marketing": "Marketing",
+  "vertrieb": "Vertrieb",
+  "finanzen": "Finanzen",
+  "recht": "Recht",
+  "operations": "Operations",
+  "info": "Recherche",
+  "praesentation": "Präsentation"
+ }
+}

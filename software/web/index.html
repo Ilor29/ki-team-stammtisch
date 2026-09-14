@@ -1,0 +1,237 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KRUG//STAMMTISCH</title>
+<link rel="icon" href="stammtisch/sepp.png">
+<style>
+:root{--gold:#e0a54a;--creme:#f3e6cf;--glut:#ff9a3c;--leise:#b9a98d;--holz:#1b110b;--linie:#3a2a1a}
+*{box-sizing:border-box}body{margin:0;background:#120c08;color:var(--creme);font-family:"IBM Plex Sans",system-ui,sans-serif;min-height:100vh}
+.kopf{display:flex;align-items:center;gap:1rem;padding:.6rem 1rem;background:linear-gradient(#1b110b,#120c08);border-bottom:1px solid var(--linie);flex-wrap:wrap}
+.kopf b{font-size:1.1rem;letter-spacing:.05em}.kopf b span{color:var(--gold)}.kopf .leise{color:var(--leise);font-size:.82rem}
+.kopf .rechts{margin-left:auto;display:flex;gap:.4rem}
+.kn{font:inherit;font-size:.78rem;padding:.35rem .7rem;border-radius:.5rem;border:1px solid #6b4a2a;background:#2b1a0f;color:var(--creme);cursor:pointer}
+.kn.haupt{background:#5a2f12}.kn:disabled{opacity:.45;cursor:default}
+.buehne{position:relative;width:100%;aspect-ratio:16/9;background:url(stammtisch/saal.jpg) center/cover no-repeat;overflow:hidden}
+.buehne::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,transparent 40%,rgba(0,0,0,.45));pointer-events:none}
+.platz{position:absolute;width:9%;transform:translate(-50%,-50%);text-align:center;transition:transform .4s,opacity .4s;opacity:.35}
+.platz.fern{width:7.5%}.platz.mitte{width:8.5%}.platz.nah{width:10%}.platz.dabei{opacity:1}.platz img{width:100%;border-radius:50%;border:3px solid rgba(255,220,160,.35);box-shadow:0 8px 24px rgba(0,0,0,.6);display:block;background:#2b1d13}
+.platz .name{font-size:.7rem;margin-top:.25rem;text-shadow:0 1px 3px #000;letter-spacing:.04em}
+.platz.spricht{transform:translate(-50%,-50%) scale(1.12);z-index:3}.platz.spricht img{border-color:var(--glut);box-shadow:0 0 0 6px rgba(255,154,60,.25),0 0 40px rgba(255,154,60,.7)}
+.platz.denkt img{animation:puls 1.4s ease-in-out infinite}@keyframes puls{0%,100%{box-shadow:0 0 0 0 rgba(224,165,74,0)}50%{box-shadow:0 0 0 10px rgba(224,165,74,.3)}}
+.blase{position:absolute;max-width:36%;cursor:pointer;background:rgba(243,230,207,.97);color:#2a1a10;border-radius:1rem;padding:.6rem .8rem;font-size:.86rem;line-height:1.4;box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:4;transform:translate(-50%,-100%);opacity:0;transition:opacity .3s;pointer-events:none}
+.blase.an{pointer-events:auto}.blase.an,.blase.mess{opacity:1}.blase.mess{transition:none;visibility:hidden}.blase::after{content:"";position:absolute;left:var(--pfeil,50%);bottom:-9px;border:9px solid transparent;border-top-color:rgba(243,230,207,.97);border-bottom:0;transform:translateX(-50%)}
+.blase .wer{font-weight:700;color:#8a4b12;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+.BENUTZER{position:absolute;left:50%;bottom:2.5%;transform:translateX(-50%);width:min(620px,94%);display:flex;gap:.5rem;align-items:center;z-index:5}
+.BENUTZER input{flex:1;padding:.7rem .9rem;border-radius:.7rem;border:1px solid #6b4a2a;background:rgba(18,12,8,.88);color:var(--creme);font:inherit}
+.start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:6;background:rgba(10,6,3,.55)}
+.start form{background:rgba(27,17,11,.96);border:1px solid var(--linie);border-radius:1rem;padding:1.2rem 1.4rem;width:min(560px,92%)}
+.start h2{margin:.2rem 0 .8rem;font-size:1rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+.start textarea{width:100%;min-height:4.5rem;padding:.6rem .8rem;border-radius:.6rem;border:1px solid #6b4a2a;background:#120c08;color:var(--creme);font:inherit;resize:vertical}
+.start label.t{display:inline-flex;align-items:center;gap:.35rem;margin:.4rem .8rem .2rem 0;font-size:.85rem}
+.platz .name{font-size:.72rem}@media(max-width:800px){.platz .name{font-size:.6rem;line-height:1.15}}
+.start .zeile{display:flex;gap:.8rem;align-items:center;margin-top:.7rem;flex-wrap:wrap;font-size:.85rem}
+.unten{display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;padding:1rem 1rem 2rem}
+@media(max-width:800px){.unten{grid-template-columns:1fr}.blase{max-width:88%;font-size:.8rem}.platz{width:13%}.platz.fern{width:11%}.platz.mitte{width:12.5%}.platz.nah{width:14%}.platz.nah{top:60%!important}.platz.mitte[data-n="julia"],.platz.mitte[data-n="david"]{top:52%!important}.platz.mitte[data-n="greta"],.platz.mitte[data-n="timo"]{top:44%!important}.platz.fern{top:36%!important}.platz[data-n="sepp"]{top:30%!important}.platz.gast[data-n="gast1"],.platz.gast[data-n="gast2"]{top:52%!important}.platz.gast[data-n="gast3"],.platz.gast[data-n="gast4"]{top:64%!important}.kopf .leise{display:none}.buehne{aspect-ratio:auto;min-height:620px}.start form{max-height:96%;overflow:auto}.start .zeile button{margin-left:0;width:100%}}
+.kasten{background:var(--holz);border:1px solid var(--linie);border-radius:.8rem;padding:.8rem 1rem}
+.kasten h2{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:.2rem 0 .6rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.protokoll{max-height:48vh;overflow:auto}
+.zeile{display:flex;gap:.6rem;margin:.45rem 0;font-size:.9rem;line-height:1.45}.zeile img{width:2rem;height:2rem;border-radius:50%;flex:none;margin-top:.1rem}
+.zeile b{color:var(--gold)}.zeile.einwurf b{color:#7fd3a6}.zeile.einwurf{background:rgba(127,211,166,.08);border-radius:.5rem;padding:.3rem .5rem}
+.zeile.vorlage{background:rgba(120,160,220,.1);border-radius:.5rem;padding:.4rem .6rem}.zeile.vorlage b{color:#9cc1ff}.waechter{color:#ffb4a0;font-size:.8rem;margin-top:.25rem}.zeile.fazit{background:rgba(255,154,60,.1);border-radius:.5rem;padding:.4rem .6rem}.zeile.fazit b{color:var(--glut)}
+.bib{list-style:none;padding:0;margin:0}.bib li{border-top:1px solid var(--linie);padding:.45rem 0;font-size:.85rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.bib li:first-child{border-top:0}.bib .t{flex:1;min-width:10rem}.bib small{color:var(--leise)}
+.status{font-size:.78rem;color:var(--leise)}
+.start[hidden],.BENUTZER[hidden]{display:none!important}
+.mikro.an{background:#8a2f12;animation:puls 1.2s infinite}
+
+/* Diktat-Knopfgruppe wie in der Relay-App: Bueroklammer, Mikrofon, Glaetten, Verwerfen-Kreuz */
+.kg{display:flex;gap:.2rem;align-items:center;flex:none}
+.rk{display:flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;background:none;color:var(--creme);border:0;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:transparent;padding:0}
+.rk svg{width:18px;height:18px}
+.rk:disabled{opacity:.4;cursor:default}
+.rk.verwerfen{background:rgba(196,60,40,.18);border:1px solid #c43c28;color:#e8654d}.rk.verwerfen:active{background:#c43c28;color:#fff}.rk.verwerfen svg{width:16px;height:16px}
+.rk.hoert{background:var(--glut);color:#fff;animation:pochen 1.4s ease-in-out infinite}
+.rk.laedt{color:var(--glut);animation:pochen 1.2s ease-in-out infinite}
+@keyframes pochen{0%,100%{box-shadow:0 0 0 0 rgba(255,154,60,.55)}50%{box-shadow:0 0 0 7px rgba(255,154,60,0)}}
+.anh{display:flex;flex-wrap:wrap;gap:.3rem}.anh:empty{display:none}
+.anh span{font-size:.72rem;background:#2b1a0f;border:1px solid var(--linie);border-radius:1rem;padding:.15rem .55rem;display:inline-flex;gap:.3rem;align-items:center;color:var(--creme)}
+.anh button{background:none;border:0;color:var(--leise);cursor:pointer;padding:0 .1rem;font-size:.95rem;line-height:1}
+.BENUTZER{flex-wrap:wrap}.BENUTZER .anh{flex-basis:100%}
+[hidden]{display:none!important}
+
+/* Relay-Aufbau (Beschluss 05.09.): Rahmen, oben Textfeld, unten Plus/Mikro/Funken, rechts runder Senden-Pfeil */
+.feld{background:rgba(18,12,8,.92);border:1px solid #6b4a2a;border-radius:1.1rem;padding:.4rem .55rem .35rem;display:flex;flex-direction:column;gap:.15rem;width:100%}
+.feld textarea,.start .feld textarea{width:100%;min-height:2.3rem;max-height:160px;overflow-y:auto;background:none;border:0;border-radius:0;padding:.35rem .25rem;color:var(--creme);font:inherit;resize:none;outline:none}
+.feld-knoepfe{display:flex;align-items:center;gap:.15rem;flex-wrap:wrap}
+.feld-knoepfe .anh,.BENUTZER .feld-knoepfe .anh{flex:1 1 auto;flex-basis:auto;margin:0 .25rem}
+.senden-rund{margin-left:auto;width:34px;height:34px;border-radius:50%;border:0;background:var(--glut);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0}
+.senden-rund svg{width:17px;height:17px}.senden-rund:active{filter:brightness(.9)}
+.BENUTZER{flex-direction:column;align-items:stretch;gap:.35rem}.BENUTZER .steuer{display:flex;gap:.4rem;justify-content:flex-end}
+.blatt{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:flex-end}
+.blatt-schatten{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.blatt-inhalt{position:relative;background:#1b110b;border-radius:20px 20px 0 0;border-top:1px solid var(--linie);padding:.5rem 1rem 1.4rem;max-height:75vh;overflow-y:auto;animation:blatt-auf .22s ease-out}
+@keyframes blatt-auf{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.blatt-kopf{display:flex;align-items:center;gap:.5rem;padding:.6rem 0 1rem}.blatt-kopf h2{flex:1;text-align:center;font-size:1rem;font-weight:600;margin:0;color:var(--creme);padding-right:2rem}
+.knopf-blank{background:none;border:0;color:var(--creme);font-size:1.1rem;cursor:pointer;padding:.4rem .5rem}
+.kachel-reihe{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.kachel{display:flex;flex-direction:column;align-items:center;gap:.55rem;background:#2b1a0f;border:0;border-radius:14px;padding:1.1rem .5rem;color:var(--creme);font:inherit;cursor:pointer}
+.kachel-kreis{display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex:none;background:#1b110b;border-radius:50%}
+.kachel-kreis svg{width:21px;height:21px}.kachel-name{font-size:.85rem}
+@media(min-width:700px){.blatt{align-items:center}.blatt-inhalt{width:min(480px,94%);border-radius:20px;margin-bottom:8vh;border:1px solid var(--linie)}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-mikrofon" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/></g>
+<g id="i-glaetten" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3.5l1.5 3.9 3.9 1.5-3.9 1.5L11 14.3 9.5 10.4 5.6 8.9l3.9-1.5z"/><path d="M17.5 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></g>
+<g id="i-kreuz" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></g>
+<g id="i-klammer" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></g>
+<g id="i-plus" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></g>
+<g id="i-senden" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></g>
+<g id="i-kamera" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2.5h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.2"/></g>
+<g id="i-bild" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-4.5-4.5L7 21"/></g>
+<g id="i-datei" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></g>
+</defs></svg>
+<input type="file" id="dateiWaehler" accept=".pdf,.md,.markdown,.txt,.text,.csv,.json,.docx,.odt,.pptx,.xlsx,image/*" multiple hidden>
+<input type="file" id="kameraWaehler" accept="image/*" capture="environment" hidden>
+<input type="file" id="bildWaehler" accept="image/*" multiple hidden>
+<div id="anhangBlatt" class="blatt" hidden><div class="blatt-schatten" id="blattSchatten"></div><div class="blatt-inhalt">
+  <div class="blatt-kopf"><button type="button" class="knopf-blank" id="blattZu" aria-label="Schliessen">✕</button><h2>Anhängen</h2></div>
+  <div class="kachel-reihe">
+    <button type="button" class="kachel" id="kachelKamera"><span class="kachel-kreis"><svg viewBox="0 0 24 24"><use href="#i-kamera"/></svg></span><span class="kachel-name">Kamera</span></button>
+    <button type="button" class="kachel" id="kachelBild"><span class="kachel-kreis"><svg viewBox="0 0 24 24"><use href="#i-bild"/></svg></span><span class="kachel-name">Fotos</span></button>
+    <button type="button" class="kachel" id="kachelDatei"><span class="kachel-kreis"><svg viewBox="0 0 24 24"><use href="#i-datei"/></svg></span><span class="kachel-name">Dateien</span></button>
+  </div></div></div>
+<div class="kopf"><b>KRUG<span>//</span>STAMMTISCH</b><span class="leise" id="statusText">Bereit für eine neue Runde.</span>
+  <div class="rechts"><button class="kn" id="knNeu">＋ Neue Runde</button><button class="kn" id="knTempo" title="Tempo der Sprechblasen: antippen zum Wechseln">🐢 gemütlich</button><button class="kn" id="knBib">📚 Bibliothek</button></div></div>
+<div class="buehne" id="buehne">
+  <div class="platz fern" style="left:50%;top:37%" data-n="sepp"><img src="stammtisch/sepp.png" alt=""><div class="name">Sepp · Koordination</div></div>
+  <div class="platz mitte" style="left:22%;top:64%" data-n="julia"><img src="stammtisch/julia.png" alt=""><div class="name">Julia · Werberecht</div></div>
+  <div class="platz mitte" style="left:31%;top:53%" data-n="greta"><img src="stammtisch/greta.png" alt=""><div class="name">Greta · Finanzen</div></div>
+  <div class="platz mitte" style="left:69%;top:53%" data-n="timo"><img src="stammtisch/timo.png" alt=""><div class="name">Timo · Marketing</div></div>
+  <div class="platz mitte" style="left:78%;top:64%" data-n="david"><img src="stammtisch/david.png" alt=""><div class="name">David · Export</div></div>
+  <div class="platz fern gast" style="left:44%;top:61%" data-n="gast1" hidden><img src="stammtisch/gast.png" alt="" onerror="this.src='stammtisch/gast.png'"><div class="name">Fachkraft</div></div>
+  <div class="platz fern gast" style="left:56%;top:61%" data-n="gast2" hidden><img src="stammtisch/gast.png" alt="" onerror="this.src='stammtisch/gast.png'"><div class="name">Fachkraft</div></div>
+  <div class="platz fern gast" style="left:40%;top:75%" data-n="gast3" hidden><img src="stammtisch/gast.png" alt="" onerror="this.src='stammtisch/gast.png'"><div class="name">Fachkraft</div></div>
+  <div class="platz fern gast" style="left:60%;top:75%" data-n="gast4" hidden><img src="stammtisch/gast.png" alt="" onerror="this.src='stammtisch/gast.png'"><div class="name">Fachkraft</div></div>
+  <div class="platz nah" style="left:88%;top:78%" data-n="sven"><img src="stammtisch/sven.png" alt=""><div class="name">Sven · Logistik</div></div>
+  <div class="platz nah" style="left:12%;top:78%" data-n="basti"><img src="stammtisch/basti.png" alt=""><div class="name">Basti · Vertrieb</div></div>
+  <div class="platz fern" style="left:40%;top:44%" data-n="fine"><img src="stammtisch/fine.png" alt=""><div class="name">Fine · Design</div></div>
+  <div class="platz fern" style="left:60%;top:44%" data-n="xaver"><img src="stammtisch/xaver.png" alt=""><div class="name">Xaver · Technik</div></div>
+  <div class="blase" id="blase"><div class="wer" id="blaseWer"></div><div id="blaseText"></div></div>
+  <div class="BENUTZER" id="roliLeiste" hidden><div class="feld" data-feld="einwurf"><textarea id="einwurf" rows="1" placeholder="Dein Einwurf, Roland …"></textarea><div class="feld-knoepfe"><button type="button" class="rk anhang" title="Anhängen" aria-label="Anhängen"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button><button type="button" class="rk mikro" title="Diktieren" aria-label="Diktieren"><svg viewBox="0 0 24 24"><use href="#i-mikrofon"/></svg></button><button type="button" class="rk glaetten" title="Diktat glätten: Füllwörter und Verhörer raus" aria-label="Diktat glätten"><svg viewBox="0 0 24 24"><use href="#i-glaetten"/></svg></button><button type="button" class="rk verwerfen" title="Diktat verwerfen" aria-label="Diktat verwerfen" hidden><svg viewBox="0 0 24 24"><use href="#i-kreuz"/></svg></button><div class="anh" id="anhEinwurf"></div><button type="button" class="senden-rund" id="senden" title="Einwerfen" aria-label="Einwerfen"><svg viewBox="0 0 24 24"><use href="#i-senden"/></svg></button></div></div><div class="steuer"><button class="kn" id="glocke" title="Glocke: Runde anhalten">🔔</button><button class="kn" id="stopp" title="Runde beenden">⏹</button></div></div>
+  <div class="start" id="startBox"><form id="startForm">
+    <h2>Neue Runde</h2>
+    <div class="feld" data-feld="thema"><textarea id="thema" placeholder="Worüber soll das Team reden? z. B. „Sollen wir den Hopfen Gin zum Hero machen und wie bewerben wir ihn zum Oktoberfest?“" required></textarea><div class="feld-knoepfe"><button type="button" class="rk anhang" title="Anhängen" aria-label="Anhängen"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button><button type="button" class="rk mikro" title="Diktieren" aria-label="Diktieren"><svg viewBox="0 0 24 24"><use href="#i-mikrofon"/></svg></button><button type="button" class="rk glaetten" title="Diktat glätten: Füllwörter und Verhörer raus" aria-label="Diktat glätten"><svg viewBox="0 0 24 24"><use href="#i-glaetten"/></svg></button><button type="button" class="rk verwerfen" title="Diktat verwerfen" aria-label="Diktat verwerfen" hidden><svg viewBox="0 0 24 24"><use href="#i-kreuz"/></svg></button><div class="anh" id="anhThema"></div><button type="submit" class="senden-rund" id="knStart" title="Runde eröffnen" aria-label="Runde eröffnen"><svg viewBox="0 0 24 24"><use href="#i-senden"/></svg></button></div></div>
+    <div><label class="t"><input type="checkbox" name="t" value="sepp" checked disabled> Sepp · Koordination</label><label class="t"><input type="checkbox" name="t" value="julia" checked> Julia · Werberecht</label><label class="t"><input type="checkbox" name="t" value="greta" checked> Greta · Finanzen</label><label class="t"><input type="checkbox" name="t" value="timo" checked> Timo · Marketing</label><label class="t"><input type="checkbox" name="t" value="david"> David · Export</label><label class="t"><input type="checkbox" name="t" value="sven"> Sven · Logistik</label><label class="t"><input type="checkbox" name="t" value="basti"> Basti · Vertrieb</label><label class="t"><input type="checkbox" name="t" value="fine"> Fine · Design</label><label class="t"><input type="checkbox" name="t" value="xaver"> Xaver · Technik</label></div>
+    <div class="zeile"><label>Runden <select id="runden"><option>1</option><option selected>2</option><option>3</option></select></label><span class="status">Jede Runde: jeder spricht einmal. Sepp eröffnet und schließt mit dem Fazit. Nur Sepp angehakt: er holt sich selbst die passenden Kollegen. Nach dem Ende kannst du unten nachfragen.</span></div>
+  </form></div>
+</div>
+<div class="unten">
+  <div class="kasten"><h2>Protokoll <span style="margin-left:auto;display:flex;gap:.3rem"><button class="kn" id="knPdf" disabled>📄 PDF</button><button class="kn" id="knTeilen" disabled>📤 Teilen</button></span></h2><div class="protokoll" id="log"><div class="status">Noch keine Runde gewählt.</div></div></div>
+  <div class="kasten" id="bibKasten"><h2>Bibliothek</h2><ul class="bib" id="bib"></ul></div>
+</div>
+<script>
+const NAMEN={sepp:"Sepp",julia:"Julia",greta:"Greta",timo:"Timo",david:"David",sven:"Sven",basti:"Basti",fine:"Fine",xaver:"Xaver"};
+const ROLLEN={sepp:"Koordination",julia:"Werberecht",greta:"Finanzen",timo:"Marketing",david:"Export",sven:"Logistik",basti:"Vertrieb",fine:"Design",xaver:"Technik"};
+const $=id=>document.getElementById(id);
+let rid=null, gezeigt=0, tippt=false, pausiert=false, takt=null, aktuelleRunde=null, ich="Roland";
+fetch("/api/wer").then(r=>r.json()).then(w=>{ich=w.name;$("einwurf").placeholder=(nachfrage?"Nachfrage an den Tisch, ":"Dein Einwurf, ")+ich+" …";}).catch(()=>{});
+function status(t){$("statusText").textContent=t;}
+function eintragZeile(e){const z=document.createElement("div");z.className="zeile "+(e.art||"");
+  const kopf=e.wer==="BENUTZER"?(e.name||"Gastgeber"):e.wer==="vorlage"?"Tischvorlage · Recherche vor der Runde":e.wer==="hinweis"?"Hinweis":wername(e)+(e.art==="fazit"?" · Fazit":"");
+  const bild=e.wer==="BENUTZER"?'<span style="width:2rem;text-align:center">🧑</span>':e.wer==="vorlage"?'<span style="width:2rem;text-align:center">🔎</span>':e.wer==="hinweis"?'<span style="width:2rem;text-align:center">⚠︎</span>':(String(e.wer).startsWith("fk:")?`<img src="${(FK.find(f=>f.kurz===e.wer)||{}).bild||"stammtisch/gast.png"}" alt="">`:`<img src="stammtisch/${e.wer}.png" alt="">`);
+  const marke=(e.nachgesehen?' <span class="status" title="hat im Firmenwissen oder im Netz nachgesehen">🔎 nachgesehen</span>':"")+(e.waechter&&e.waechter.length?` <div class="waechter">⚠︎ Wächter: unbelegt geblieben: ${e.waechter.map(x=>x.replace(/</g,"&lt;")).join(" | ")}</div>`:"");
+  z.innerHTML=bild+`<div><b>${kopf}</b> ${e.text.replace(/</g,"&lt;").replace(/\n/g,"<br>")} <span class="status">${e.zeit||""}</span>${marke}</div>`;
+  $("log").appendChild(z);$("log").scrollTop=$("log").scrollHeight;}
+function markiere(spricht,denkt){if(String(denkt||"").startsWith("fk:"))denkt=gastplatz(denkt);document.querySelectorAll(".platz").forEach(p=>{p.classList.toggle("spricht",p.dataset.n===spricht);p.classList.toggle("denkt",p.dataset.n===denkt&&p.dataset.n!==spricht);});}
+let FK=[];function gastplatz(kurz){const i=FK.findIndex(f=>f.kurz===kurz);return i>=0&&i<4?"gast"+(i+1):"gast1";}
+function gaesteZeichnen(){document.querySelectorAll(".platz.gast").forEach((g,i)=>{const f=FK[i];g.hidden=!f;if(f){g.classList.add("dabei");g.querySelector("img").src=f.bild||"stammtisch/gast.png";g.querySelector(".name").textContent=f.name;}});}
+function wername(e){return NAMEN[e.wer]?NAMEN[e.wer]+" · "+ROLLEN[e.wer]:(e.name||e.wer)+(e.rolle?" · "+e.rolle:"");}
+function sprich(e){return new Promise(res=>{const fk=String(e.wer).startsWith("fk:");const platzName=fk?gastplatz(e.wer):e.wer;if(fk&&!FK.some(f=>f.kurz===e.wer)){FK.push({kurz:e.wer,name:e.name||"Fachkraft",bild:"stammtisch/gast.png"});gaesteZeichnen();}markiere(platzName,null);const p=document.querySelector(`.platz[data-n="${platzName}"]`);const b=$("buehne").getBoundingClientRect();
+  if(p){const r=p.getBoundingClientRect();const bl=$("blase");
+    // Blase über dem Sprecher, aber immer im Bild: Mitte wird auf den Bühnenrand begrenzt,
+    // der Pfeil zeigt trotzdem auf den Kopf (Roland, 07.09.: am Handy lief sie links raus).
+    // Breite mit dem vollen Text messen (unsichtbar), sonst ist die Blase beim Messen noch leer und schmal
+    $("blaseWer").textContent=wername(e);$("blaseText").textContent=e.text;
+    bl.classList.add("mess");const bw=bl.getBoundingClientRect().width;bl.classList.remove("mess");
+    const mitte=r.left+r.width/2-b.left;const rand=8;const links=Math.max(bw/2+rand,Math.min(b.width-bw/2-rand,mitte));
+    bl.style.left=links+"px";bl.style.top=(r.top-b.top-8)+"px";
+    bl.style.setProperty("--pfeil",Math.max(14,Math.min(bw-14,bw/2+(mitte-links)))+"px");}
+  $("blaseWer").textContent=wername(e)+(e.art==="fazit"?" · Fazit":"");$("blaseText").textContent="";$("blase").classList.add("an");
+  let k=0,fertig=false;const ms=TEMPO[tempo].tipp;const zu=()=>{if(fertig)return;fertig=true;clearInterval(t);$("blase").classList.remove("an");$("blase").onclick=null;res();};$("blase").onclick=()=>{if(k<e.text.length){k=e.text.length;$("blaseText").textContent=e.text;clearInterval(t);setTimeout(zu,TEMPO[tempo].halt(e.text));}else zu();};const t=setInterval(()=>{$("blaseText").textContent=e.text.slice(0,++k);if(k>=e.text.length){clearInterval(t);setTimeout(zu,TEMPO[tempo].halt(e.text));}},ms);});}
+// Tempo der Sprechblasen (Roland, 10.09.: "die Schrift, die mitläuft, da komme ich nicht hinterher"): Tippen pro Zeichen und Haltezeit danach
+const TEMPO={gemuetlich:{tipp:45,halt:t=>Math.max(3000,t.length*28),name:"🐢 gemütlich"},normal:{tipp:30,halt:t=>Math.max(2000,t.length*16),name:"🚶 normal"},flott:{tipp:14,halt:t=>1200,name:"🐇 flott"}};
+let tempo=localStorage.getItem("stammtisch-tempo")||"gemuetlich";if(!TEMPO[tempo])tempo="gemuetlich";
+function tempoZeigen(){$("knTempo").textContent=TEMPO[tempo].name;}tempoZeigen();
+$("knTempo").onclick=()=>{const r=Object.keys(TEMPO);tempo=r[(r.indexOf(tempo)+1)%r.length];localStorage.setItem("stammtisch-tempo",tempo);tempoZeigen();};
+async function zeigeNeue(z){while(gezeigt<z.eintraege.length){const e=z.eintraege[gezeigt++];if(e.wer==="BENUTZER"||e.wer==="vorlage"||e.wer==="hinweis"){eintragZeile(e);continue;}tippt=true;await sprich(e);eintragZeile(e);tippt=false;}}
+async function holen(){if(!rid||tippt)return;const a=await fetch("/api/runde/"+rid);if(!a.ok)return;const z=await a.json();aktuelleRunde=z;
+  document.querySelectorAll(".platz").forEach(p=>p.classList.toggle("dabei",z.teilnehmer.includes(p.dataset.n)));
+  FK=z.fachkraefte||[];gaesteZeichnen();markiere(String(z.aktuell||"").startsWith("fk:")?gastplatz(z.aktuell):z.aktuell,z.aktuell);
+  await zeigeNeue(z);
+  if(z.status==="fertig"){status("Runde beendet · "+z.eintraege.length+" Beiträge · Unten kannst du nachfragen.");markiere(null,null);nachfrageModus(true);clearInterval(takt);takt=null;
+    $("knPdf").disabled=!z.pdf;$("knTeilen").disabled=!z.pdf;ladeBib();}
+  else if(z.status==="fehler"){status("Fehler: "+z.fehler);clearInterval(takt);takt=null;nachfrageModus(true);}
+  else status((z.status==="pause"?"Angehalten":"Es spricht "+(z.aktuell?(NAMEN[z.aktuell]?NAMEN[z.aktuell]+" ("+ROLLEN[z.aktuell]+")":((z.fachkraefte||[]).find(f=>f.kurz===z.aktuell)||{}).name||"Fachkraft"):"…"))+" · Thema: "+z.thema);}
+async function oeffne(id,live){rid=id;gezeigt=0;$("log").innerHTML="";$("startBox").hidden=true;nachfrageModus(!live);$("knPdf").disabled=true;$("knTeilen").disabled=true;
+  if(takt)clearInterval(takt);if(live){takt=setInterval(holen,1500);}await holen();}
+$("startForm").onsubmit=async ev=>{ev.preventDefault();const t=[...document.querySelectorAll('input[name=t]:checked')].map(x=>x.value);
+  const a=await fetch("/api/start",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({thema:$("thema").value,teilnehmer:t,runden:+$("runden").value,anhaenge:ANH.thema.map(a=>a.id)})});
+  if(!a.ok){alert((await a.json()).detail||"Start fehlgeschlagen");return;}const z=await a.json();ANH.thema=[];anhZeichnen("thema");$("thema").value="";entwurfMerken("thema");oeffne(z.id,true);};
+$("knNeu").onclick=()=>{$("startBox").hidden=false;};
+let nachfrage=false;function nachfrageModus(an){nachfrage=an;$("roliLeiste").hidden=false;$("glocke").hidden=an;$("stopp").hidden=an;$("einwurf").placeholder=an?"Nachfrage an den Tisch, "+ich+" …":"Dein Einwurf, "+ich+" …";}
+$("senden").onclick=async()=>{const v=$("einwurf").value.trim();if((!v&&!ANH.einwurf.length)||!rid)return;if(nachfrage){if(!v)return;const a=await fetch(`/api/runde/${rid}/nachfrage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:v})});if(!a.ok){alert((await a.json()).detail||"Nachfrage fehlgeschlagen");return;}$("einwurf").value="";entwurfMerken("einwurf");gezeigt=aktuelleRunde?aktuelleRunde.eintraege.length:gezeigt;nachfrageModus(false);if(takt)clearInterval(takt);takt=setInterval(holen,1500);return;}const a=await fetch(`/api/runde/${rid}/einwurf`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:v,anhaenge:ANH.einwurf.map(x=>x.id)})});if(!a.ok){alert((await a.json()).detail||"Einwurf fehlgeschlagen");return;}$("einwurf").value="";entwurfMerken("einwurf");ANH.einwurf=[];anhZeichnen("einwurf");};
+$("einwurf").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("senden").click();}});
+$("glocke").onclick=async function(){const a=await fetch(`/api/runde/${rid}/glocke`,{method:"POST"});if(a.ok){pausiert=(await a.json()).pause;this.textContent=pausiert?"▶️":"🔔";}};
+$("stopp").onclick=async()=>{if(confirm("Runde jetzt beenden? Sepp schließt dann mit dem Fazit."))await fetch(`/api/runde/${rid}/stop`,{method:"POST"});};
+$("knPdf").onclick=()=>{if(aktuelleRunde&&aktuelleRunde.pdf)window.open("/pdf/"+encodeURIComponent(aktuelleRunde.pdf),"_blank");};
+$("knTeilen").onclick=async()=>{if(!aktuelleRunde||!aktuelleRunde.pdf)return;try{const r=await fetch("/pdf/"+encodeURIComponent(aktuelleRunde.pdf));const blob=await r.blob();const f=new File([blob],aktuelleRunde.pdf,{type:"application/pdf"});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:"Stammtisch-Protokoll",text:aktuelleRunde.thema});}else{window.open("/pdf/"+encodeURIComponent(aktuelleRunde.pdf),"_blank");}}catch(e){}};
+$("knBib").onclick=()=>$("bibKasten").scrollIntoView({behavior:"smooth"});
+async function ladeBib(){const a=await fetch("/api/runden");const l=await a.json();$("bib").innerHTML=l.length?l.map(r=>`<li><span class="t"><b>${r.thema.replace(/</g,"&lt;")}</b><br><small>${r.datum.slice(6,8)}.${r.datum.slice(4,6)}.${r.datum.slice(0,4)} · ${r.eintraege} Beiträge · ${r.status}</small></span><button class="kn" onclick="oeffne('${r.id}',${r.status==='läuft'||r.status==='pause'})">Lesen</button>${r.pdf?`<a class="kn" href="/pdf/${encodeURIComponent(r.pdf)}" target="_blank">PDF</a>`:""}<button class="kn" title="Runde löschen" onclick="loeschen('${r.id}',this)">🗑</button></li>`).join(""):'<li><small>Noch keine Runden.</small></li>';}
+async function loeschen(id,kn){if(!confirm("Diese Runde samt PDF aus der Bibliothek löschen?"))return;const a=await fetch("/api/runde/"+id,{method:"DELETE"});if(!a.ok){alert((await a.json()).detail||"Löschen fehlgeschlagen");return;}if(rid===id){rid=null;$("log").innerHTML="";status("Runde gelöscht.");}ladeBib();}
+ladeBib();
+// ---- Unterlagen (Bueroklammer), Diktat, Glaetten, Verwerfen: das Relay-Muster ----
+const ANH={thema:[],einwurf:[]}; const esc=x=>String(x).replace(/</g,"&lt;");
+function anhZeichnen(feld){const box=$(feld==="thema"?"anhThema":"anhEinwurf");
+  box.innerHTML=ANH[feld].map((a,i)=>`<span>📎 ${esc(a.name)} <small style="color:var(--leise)">${Math.round(a.zeichen/1000)||1} Tsd. Zeichen</small><button type="button" data-i="${i}" title="Entfernen">×</button></span>`).join("");
+  box.querySelectorAll("button").forEach(b=>b.onclick=()=>{ANH[feld].splice(+b.dataset.i,1);anhZeichnen(feld);});}
+function entwurfMerken(feld){try{const v=$(feld).value;if(v.trim())localStorage.setItem("stammtisch-"+feld,v);else localStorage.removeItem("stammtisch-"+feld);}catch(e){}}
+["thema","einwurf"].forEach(f=>{try{const v=localStorage.getItem("stammtisch-"+f);if(v&&!$(f).value)$(f).value=v;}catch(e){}$(f).addEventListener("input",()=>entwurfMerken(f));});
+let anhangFeld="thema";
+async function hochladen(dateien,feld){const knopf=document.querySelector(`.feld[data-feld="${feld}"] .anhang`);knopf.classList.add("laedt");
+  for(const f of dateien){try{const a=await fetch("/api/anhang",{method:"POST",headers:{"X-Dateiname":encodeURIComponent(f.name||"foto.jpg")},body:f});
+    if(!a.ok){alert((await a.json()).detail||"Hochladen fehlgeschlagen");continue;}ANH[feld].push(await a.json());anhZeichnen(feld);}catch(err){alert("Hochladen fehlgeschlagen: "+err);}}
+  knopf.classList.remove("laedt");}
+// Das Anhaengen-Blatt: erst schliessen, dann den Waehler oeffnen (sonst liegt es nach der Kamera noch ueber dem Feld)
+function blattZu(){$("anhangBlatt").hidden=true;}
+$("blattZu").onclick=blattZu;$("blattSchatten").onclick=blattZu;
+$("kachelKamera").onclick=()=>{blattZu();$("kameraWaehler").click();};
+$("kachelBild").onclick=()=>{blattZu();$("bildWaehler").click();};
+$("kachelDatei").onclick=()=>{blattZu();$("dateiWaehler").click();};
+["dateiWaehler","kameraWaehler","bildWaehler"].forEach(id=>$(id).addEventListener("change",e=>{const dateien=[...e.target.files];e.target.value="";hochladen(dateien,anhangFeld);}));
+(function(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  document.querySelectorAll(".feld").forEach(g=>{
+    const feld=g.dataset.feld, ziel=$(feld), mikro=g.querySelector(".mikro"), glatt=g.querySelector(".glaetten"), kreuz=g.querySelector(".verwerfen");
+    g.querySelector(".anhang").onclick=()=>{anhangFeld=feld;$("anhangBlatt").hidden=false;};
+    ziel.addEventListener("input",()=>{ziel.style.height="auto";ziel.style.height=Math.min(ziel.scrollHeight,160)+"px";});
+    // Glaetten: Fuellwoerter, Dopplungen, Verhoerer raus, ueber Rolis Abo
+    glatt.onclick=async()=>{const v=ziel.value.trim();if(!v||glatt.classList.contains("laedt"))return;glatt.classList.add("laedt");
+      try{const a=await fetch("/api/glaetten",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:v})});
+        if(!a.ok){alert((await a.json()).detail||"Glaetten fehlgeschlagen");}else{ziel.value=(await a.json()).text||v;entwurfMerken(feld);}}
+      catch(err){alert("Glaetten fehlgeschlagen.");}finally{glatt.classList.remove("laedt");}};
+    if(!SR){mikro.title="Diktat wird von diesem Browser nicht unterstuetzt";mikro.disabled=true;return;}
+    // Diktat nach dem Relay-Muster: NICHT durchgehend zuhoeren (Android-Chrome haengt sonst jeden
+    // Zwischenstand neu an), sondern satzweise erkennen und im onend neu starten, solange der Knopf aktiv ist.
+    let hoert=null, will=false, vorher="", fertig="";
+    function aus(){will=false;try{hoert&&hoert.stop();}catch(e){}mikro.classList.remove("hoert");kreuz.hidden=true;}
+    kreuz.onclick=()=>{aus();ziel.value=vorher.trimEnd();entwurfMerken(feld);};   // Diktat weg, was vorher stand bleibt
+    mikro.onclick=()=>{
+      if(will){aus();ziel.value=(vorher+fertig).trimStart();entwurfMerken(feld);return;}
+      vorher=ziel.value?ziel.value.trimEnd()+" ":""; fertig=""; will=true; kreuz.hidden=false;
+      function lauschen(){const r=new SR();hoert=r;r.lang="de-DE";r.interimResults=true;r.continuous=false;
+        r.onstart=()=>mikro.classList.add("hoert");
+        r.onresult=e=>{const l=e.results[e.results.length-1];const st=l[0].transcript;
+          if(l.isFinal){fertig+=st.trim()+" ";ziel.value=(vorher+fertig).trimStart();entwurfMerken(feld);}else{ziel.value=(vorher+fertig+st).trimStart();}};
+        r.onerror=ev=>{if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){aus();alert("Mikrofon nicht erlaubt. Bitte in Chrome die Mikrofon-Erlaubnis fuer diese Seite geben.");}};
+        r.onend=()=>{hoert=null;if(will){setTimeout(lauschen,150);}else{mikro.classList.remove("hoert");kreuz.hidden=true;ziel.value=(vorher+fertig).trimStart();}};
+        try{r.start();}catch(e){aus();}}
+      lauschen();};});})();
+</script></body></html>

@@ -1,0 +1,13 @@
+[Unit]
+Description=KRUG//STAMMTISCH — Besprechungsraum des KI-Teams
+After=network.target
+
+[Service]
+User=BENUTZER
+WorkingDirectory=/home/BENUTZER/projekte/Stammtisch
+ExecStart=/home/BENUTZER/projekte/Stammtisch/.venv/bin/python -m stammtisch.server
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
