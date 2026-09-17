@@ -1,5 +1,8 @@
 # Lizenz
 
+Der englische MIT-Text liegt zusaetzlich als `LICENSE`, damit GitHub die Lizenz erkennt
+und nicht „keine Lizenz“ anzeigt.
+
 ## Die Software und die Anleitungen
 
 MIT-Lizenz.
