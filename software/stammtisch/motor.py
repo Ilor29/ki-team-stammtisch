@@ -566,7 +566,7 @@ def laden(rid):
 
 def alle(fuer=None):
     """Bibliothek. `fuer` = Name des Gastgebers: dann nur dessen eigene Runden (Roli sieht alle,
-    Beschluss 12.09.2026: Gischi und Denis arbeiten am selben Tisch, sehen aber nur ihr eigenes)."""
+    Beschluss 12.09.2026: mehrere Gastgeber arbeiten am selben Tisch, sehen aber nur ihr eigenes)."""
     liste = []
     for p in sorted(RUNDEN.glob("*.json"), reverse=True):
         try:
