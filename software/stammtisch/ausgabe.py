@@ -19,7 +19,7 @@ def markdown_text(r):
          f"> Runde vom {r.id[6:8]}.{r.id[4:6]}.{r.id[:4]} um {r.id[9:11]}:{r.id[11:13]} Uhr · Teilnehmer: "
          + ", ".join(r.teilnehmer) + f" · {r.runden} Runden · KI-Gespräch, Fakten vor Verwendung prüfen.", ""]
     for e in r.eintraege:
-        kopf = "**Roland (Einwurf):**" if e["art"] == "einwurf" else (f"**{e['name']} · Fazit:**" if e["art"] == "fazit" else f"**{e['name']} ({e['rolle']}):**")
+        kopf = "**Roli (Einwurf):**" if e["art"] == "einwurf" else (f"**{e['name']} · Fazit:**" if e["art"] == "fazit" else f"**{e['name']} ({e['rolle']}):**")
         z.append(f"{kopf} {e['text']}\n")
     return "\n".join(z)
 
@@ -31,7 +31,7 @@ def pdf_und_notiz(r):
              f"<p class='meta'>Runde vom {r.id[6:8]}.{r.id[4:6]}.{r.id[:4]}, {r.id[9:11]}:{r.id[11:13]} Uhr · Teilnehmer: {html.escape(', '.join(r.teilnehmer))} · {r.runden} Runden</p>"]
     for e in r.eintraege:
         kl = "einwurf" if e["art"] == "einwurf" else ("fazit" if e["art"] == "fazit" else "")
-        wer = "Roland (Einwurf)" if e["art"] == "einwurf" else (f"{e['name']} · Fazit" if e["art"] == "fazit" else f"{e['name']} ({e['rolle']})")
+        wer = "Roli (Einwurf)" if e["art"] == "einwurf" else (f"{e['name']} · Fazit" if e["art"] == "fazit" else f"{e['name']} ({e['rolle']})")
         teile.append(f"<div class='beitrag {kl}'><b>{html.escape(wer)}</b> <span class='meta'>{e['zeit']}</span><br>{html.escape(e['text'])}</div>")
     teile.append("<div class='fuss'>Masskrugflasche GmbH — internes Gesprächsprotokoll des KI-Teams (KRUG//STAMMTISCH), erstellt mit KI-Unterstützung. Zahlen ohne Quelle sind Einschätzungen.</div>")
     seite = f"<!doctype html><html lang='de'><head><meta charset='utf-8'><style>{STIL}</style></head><body>{''.join(teile)}</body></html>"

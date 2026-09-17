@@ -112,11 +112,11 @@ def seele(kurz):
     t = re.sub(r"- Zusammenarbeit über die Kanban-Tafel.*?\n(?:\s{2,}.*\n)*", "", t)
     return t
 
-ABO_EINSTELLUNGEN = '{"disableAllHooks":true,"enabledPlugins":{"BENUTZER-koffer@koffer":false}}'
+ABO_EINSTELLUNGEN = '{"disableAllHooks":true,"enabledPlugins":{"roli-koffer@koffer":false}}'
 
 def cron_umgebung():
     """Umgebung für kopflose Aufrufe: fester HOME/PATH, kein Terminal-Titel, und das Jahres-Token
-    aus ~/.claude-cron-token, falls Roland es mit `claude setup-token` hinterlegt hat."""
+    aus ~/.claude-cron-token, falls Roli es mit `claude setup-token` hinterlegt hat."""
     import os
     u = dict(os.environ, HOME="/home/BENUTZER", PATH="/home/BENUTZER/.local/bin:/usr/local/bin:/usr/bin:/bin",
              CLAUDE_CODE_DISABLE_TERMINAL_TITLE="1")
@@ -211,7 +211,7 @@ def herkunft_pruefen(text, vorlage_da):
     return stellen
 
 def kuerzen(text, max_woerter):
-    """Roland, 10.09.: die Texte sind zu lang. Ganze Saetze behalten, bis die Wortgrenze erreicht ist."""
+    """Roli, 10.09.: die Texte sind zu lang. Ganze Saetze behalten, bis die Wortgrenze erreicht ist."""
     saetze = re.split(r"(?<=[.!?])\s+", text.strip())
     aus, n = [], 0
     for satz in saetze:
@@ -221,7 +221,7 @@ def kuerzen(text, max_woerter):
     return " ".join(aus)
 
 class Runde:
-    def __init__(self, thema, teilnehmer, runden=None, gastgeber="Roland", anhaenge=None):
+    def __init__(self, thema, teilnehmer, runden=None, gastgeber="Roli", anhaenge=None):
         k = konfig()
         self.id = time.strftime("%Y%m%d-%H%M%S")
         self.thema = thema.strip(); self.gastgeber = gastgeber
@@ -253,7 +253,7 @@ class Runde:
                 "anhaenge": [a["name"] for a in getattr(self, "anhaenge", [])], "fachkraefte": [{"kurz": f, "name": NAMEN.get(f, f), "rolle": ROLLEN.get(f, ""), "bild": (f"stammtisch/fk/{f[3:]}.png" if ((PORTRAETS / f"{f[3:]}.png").exists() or runden_und_ablegen(f[3:])) else "stammtisch/gast.png")} for f in getattr(self, "fachkraefte", [])]}
 
     def eintrag(self, wer, text, art="rede"):
-        e = {"wer": wer, "name": NAMEN.get(wer, "Roland"), "rolle": ROLLEN.get(wer, "Gastgeber"),
+        e = {"wer": wer, "name": NAMEN.get(wer, "Roli"), "rolle": ROLLEN.get(wer, "Gastgeber"),
              "text": text, "zeit": time.strftime("%H:%M"), "art": art}
         if (wer in NAMEN or wer.startswith("fk:")) and art in ("rede", "fazit"):
             e["nachgesehen"] = getattr(self, "letzte_zuege", 1) > 1
@@ -262,12 +262,12 @@ class Runde:
         if wer == "hinweis": e["name"] = "Hinweis"; e["rolle"] = "Stammtisch"
         self.eintraege.append(e); self.speichern(); return e
 
-    def einwurf(self, text, wer="Roland", anhaenge=None):
+    def einwurf(self, text, wer="Roli", anhaenge=None):
         neu = [a for a in (anhang_laden(x) for x in (anhaenge or [])) if a]
         if neu:
             self.anhaenge += neu
             text = (text + " " if text else "") + "(Unterlage mitgebracht: " + ", ".join(a["name"] for a in neu) + ")"
-        e = self.eintrag("BENUTZER", text, "einwurf"); e["name"] = wer; self.speichern()
+        e = self.eintrag("roli", text, "einwurf"); e["name"] = wer; self.speichern()
         self.einwuerfe.append(f"{wer}: {text}")
 
     def verlauf_text(self):
@@ -336,7 +336,7 @@ class Runde:
 
     def vorbereiten(self, modell):
         """Tischvorlage: vor der Runde werden Marken, Begriffe und Verhoerer im Thema geklaert, mit Quellen
-        (Firmenwissen und Netz). Roland, 10.09.: 'wieso schauen die nicht selber nach im Internet'."""
+        (Firmenwissen und Netz). Roli, 10.09.: 'wieso schauen die nicht selber nach im Internet'."""
         system = ("Du bereitest den KRUG//STAMMTISCH vor (Tischvorlage). Aufgabe: 1) Lies das Thema; es ist diktiert, Verhörer sind möglich. "
                   "2) Nenne die Marken, Produkte, Webseiten, Personen und Fachbegriffe darin. 3) Sieh zu jedem im Firmenwissen nach: die Notizenliste unten zeigt alle Dateien, lies die passenden mit Read. "
                   "4) Lies zu jeder genannten Webseite oder Marke die Seite im Netz (WebFetch) und mach eine bis zwei Suchen (WebSearch), auch nach dem Instagram-Auftritt, soweit ohne Login lesbar. "
@@ -380,7 +380,7 @@ class Runde:
 
     def fachkraefte_holen(self, modell):
         """Sepp sieht ins Personalverzeichnis und holt null bis zwei Fachkraefte auf Zeit an den Tisch
-        (Roland, 10.09.: 'von denen kriegen wir Informationen mit kleinem Beitrag')."""
+        (Roli, 10.09.: 'von denen kriegen wir Informationen mit kleinem Beitrag')."""
         import json as _j
         liste = fachkraefte_liste()
         if not liste: return
@@ -423,7 +423,7 @@ class Runde:
                     self.aktuell = wer
                     auftrag = f"Runde {nr+1} von {self.runden}."
                     if self.einwuerfe:
-                        auftrag += " WICHTIG: Roland hat eingeworfen: '" + " | ".join(self.einwuerfe) + "'. Geh zuerst darauf ein."
+                        auftrag += " WICHTIG: Roli hat eingeworfen: '" + " | ".join(self.einwuerfe) + "'. Geh zuerst darauf ein."
                         self.einwuerfe = []
                     if wer == "sepp":
                         auftrag += " Als Koordinator: Fasse den Zwischenstand in zwei Sätzen zusammen und stelle die nächste Frage."
@@ -433,7 +433,7 @@ class Runde:
                 if self.stop: break
             while self.pause and not self.stop: time.sleep(0.4)
             self.aktuell = "sepp"
-            fazit = "Schließe die Runde: Fasse die Ergebnisse zusammen, nenne die zwei bis drei wichtigsten Empfehlungen und die Entscheidungen, die bei Roland liegen. Höchstens 5 Sätze, höchstens 90 Wörter."
+            fazit = "Schließe die Runde: Fasse die Ergebnisse zusammen, nenne die zwei bis drei wichtigsten Empfehlungen und die Entscheidungen, die bei Roli liegen. Höchstens 5 Sätze, höchstens 90 Wörter."
             if self.einwuerfe:
                 fazit += " Berücksichtige Rolis Einwürfe: " + " | ".join(self.einwuerfe); self.einwuerfe = []
             self.eintrag("sepp", self.sprechen("sepp", fazit, k["modell_fazit"]), "fazit")
@@ -445,12 +445,12 @@ class Runde:
 
     @classmethod
     def aus_datei(cls, rid):
-        """Fertige Runde aus der Ablage wiederherstellen, damit Roland nachfragen kann."""
+        """Fertige Runde aus der Ablage wiederherstellen, damit Roli nachfragen kann."""
         p = RUNDEN / f"{rid}.json"
         if not re.fullmatch(r"[0-9-]+", rid or "") or not p.exists(): return None
         d = json.loads(p.read_text())
         r = cls.__new__(cls)
-        r.id = d["id"]; r.thema = d["thema"]; r.gastgeber = d.get("gastgeber", "Roland")
+        r.id = d["id"]; r.thema = d["thema"]; r.gastgeber = d.get("gastgeber", "Roli")
         r.teilnehmer = d["teilnehmer"]; r.runden = d.get("runden", 2); r.eintraege = d.get("eintraege", [])
         r.status = d["status"]; r.einwuerfe = []; r.pause = False; r.stop = False; r.aktuell = None
         r.tokens = d.get("tokens", 0); r.pdf = d.get("pdf"); r.fehler = None; r.weg = d.get("weg"); r.notiz_fehler = None
@@ -459,7 +459,7 @@ class Runde:
         r.fachkraefte = [fachkraft_anmelden(x["kurz"][3:]) for x in d.get("fachkraefte", [])]; r.fachkraefte = [x for x in r.fachkraefte if x]
         return r
 
-    def fortsetzen(self, text, wer="Roland"):
+    def fortsetzen(self, text, wer="Roli"):
         """Nachfrage des Gastgebers zu einer fertigen Runde: Einwurf, eine weitere Runde, neues Fazit."""
         k = konfig()
         if k.get("modus") == "abo":
@@ -483,7 +483,7 @@ class Runde:
             self.status = "fehler"; self.fehler = str(e)[:300]; self.aktuell = None; self.speichern()
 
     def weiterfuehren(self):
-        """Nach einem Neustart des Dienstes: unterbrochene Runde zu Ende bringen (Roland, 10.09. 22:51: 'ist der
+        """Nach einem Neustart des Dienstes: unterbrochene Runde zu Ende bringen (Roli, 10.09. 22:51: 'ist der
         Stammtisch defekt?'). Alle sprechen noch einmal mit Bezug auf das Bisherige, dann schliesst Sepp."""
         k = konfig()
         if k.get("modus") == "abo":
@@ -496,7 +496,7 @@ class Runde:
                 self.aktuell = w
                 self.eintrag(w, self.sprechen(w, "Die Runde wurde kurz unterbrochen und geht weiter. Setze das Gespräch fort: greif den letzten Stand auf und bring deinen nächsten Punkt.", k["modell_runde"]))
             self.aktuell = "sepp"
-            self.eintrag("sepp", self.sprechen("sepp", "Schließe die Runde: Fasse die Ergebnisse zusammen, nenne die zwei bis drei wichtigsten Empfehlungen und die Entscheidungen, die bei Roland liegen. Höchstens 5 Sätze, höchstens 90 Wörter.", k["modell_fazit"]), "fazit")
+            self.eintrag("sepp", self.sprechen("sepp", "Schließe die Runde: Fasse die Ergebnisse zusammen, nenne die zwei bis drei wichtigsten Empfehlungen und die Entscheidungen, die bei Roli liegen. Höchstens 5 Sätze, höchstens 90 Wörter.", k["modell_fazit"]), "fazit")
             self.status = "fertig"; self.aktuell = None; self.speichern()
             from . import ausgabe
             self.pdf = ausgabe.pdf_und_notiz(self); self.speichern()
@@ -516,7 +516,7 @@ def wiederaufnehmen():
             AKTIV[r.id] = r; threading.Thread(target=r.weiterfuehren, daemon=True).start(); n += 1
     return n
 
-def nachfragen(rid, text, wer="Roland"):
+def nachfragen(rid, text, wer="Roli"):
     r = AKTIV.get(rid) or Runde.aus_datei(rid)
     if not r: return None
     if r.status in ("läuft", "pause"): raise RuntimeError("Diese Runde läuft noch, nutze den Einwurf.")
@@ -525,7 +525,7 @@ def nachfragen(rid, text, wer="Roland"):
     return r
 
 def loeschen(rid):
-    """Runde samt PDF aus der Bibliothek entfernen (Roland, 10.09.). Laufende Runden bleiben."""
+    """Runde samt PDF aus der Bibliothek entfernen (Roli, 10.09.). Laufende Runden bleiben."""
     r = AKTIV.get(rid)
     if r and r.status in ("läuft", "pause"): raise RuntimeError("Diese Runde läuft noch.")
     p = RUNDEN / f"{rid}.json"
@@ -535,7 +535,7 @@ def loeschen(rid):
         if d.get("pdf"):
             pdf = DATEN.parent / "Downloads" / "Stammtisch" / d["pdf"]
             if pdf.exists() and "/" not in d["pdf"]: pdf.unlink()
-        # Roland, 10.09.: geloescht heisst auch aus dem Firmenwissen raus (Protokoll-Notiz und HTML), sonst liest der
+        # Roli, 10.09.: geloescht heisst auch aus dem Firmenwissen raus (Protokoll-Notiz und HTML), sonst liest der
         # naechste Stammtisch alte, womoeglich erfundene Aussagen als Wissen
         from . import ausgabe
         rr = Runde.aus_datei(rid)
@@ -546,7 +546,7 @@ def loeschen(rid):
     except Exception: pass
     p.unlink(); AKTIV.pop(rid, None); return True
 
-def starten(thema, teilnehmer, runden=None, gastgeber="Roland", anhaenge=None):
+def starten(thema, teilnehmer, runden=None, gastgeber="Roli", anhaenge=None):
     r = Runde(thema, teilnehmer, runden, gastgeber, anhaenge)
     AKTIV[r.id] = r
     threading.Thread(target=r.laufen, daemon=True).start()
@@ -565,14 +565,14 @@ def laden(rid):
     return d
 
 def alle(fuer=None):
-    """Bibliothek. `fuer` = Name des Gastgebers: dann nur dessen eigene Runden (Roland sieht alle,
-    Beschluss 12.09.2026: die Vertriebspartnerin und der Social-Media-Kollege arbeiten am selben Tisch, sehen aber nur ihr eigenes)."""
+    """Bibliothek. `fuer` = Name des Gastgebers: dann nur dessen eigene Runden (Roli sieht alle,
+    Beschluss 12.09.2026: Gischi und Denis arbeiten am selben Tisch, sehen aber nur ihr eigenes)."""
     liste = []
     for p in sorted(RUNDEN.glob("*.json"), reverse=True):
         try:
             d = json.loads(p.read_text())
-            if fuer and fuer != "Roland" and (d.get("gastgeber") or "Roland") != fuer: continue
+            if fuer and fuer != "Roli" and (d.get("gastgeber") or "Roli") != fuer: continue
             liste.append({"id": d["id"], "thema": d["thema"], "status": d["status"], "pdf": d.get("pdf"),
-                          "eintraege": len(d.get("eintraege", [])), "datum": d["id"][:8], "gastgeber": d.get("gastgeber", "Roland")})
+                          "eintraege": len(d.get("eintraege", [])), "datum": d["id"][:8], "gastgeber": d.get("gastgeber", "Roli")})
         except Exception: continue
     return liste

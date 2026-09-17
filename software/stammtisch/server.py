@@ -1,8 +1,8 @@
 """KRUG//STAMMTISCH — Web-Dienst. Lauscht nur auf 127.0.0.1:8806, Caddy davor
 (Passwort = Leitstand). Seiten unter /, Schnittstelle unter /api/."""
-import pathlib, json, re, subprocess, time, os, zipfile, io, urllib.parse, secrets
+import pathlib, json, re, subprocess, time, os, zipfile, io, urllib.parse, urllib.request, secrets
 from collections import deque
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -133,7 +133,7 @@ def runde(rid: str, request: Request):
     z = motor.laden(rid)
     if not z: raise HTTPException(404, "Runde nicht gefunden.")
     wer = _wer(request)
-    if wer != "Roland" and (z.get("gastgeber") or "Roland") != wer: raise HTTPException(404, "Runde nicht gefunden.")
+    if wer != "Roli" and (z.get("gastgeber") or "Roli") != wer: raise HTTPException(404, "Runde nicht gefunden.")
     return z
 
 @app.post("/api/runde/{rid}/einwurf")
@@ -146,12 +146,12 @@ def einwurf(rid: str, t: Text, request: Request):
 
 @app.post("/api/runde/{rid}/nachfrage")
 def nachfrage(rid: str, t: Text, request: Request):
-    """Roland fragt bei einer fertigen Runde nach: eine weitere Runde zu seinem Punkt."""
+    """Roli fragt bei einer fertigen Runde nach: eine weitere Runde zu seinem Punkt."""
     if not t.text.strip(): raise HTTPException(400, "Nachfrage ist leer.")
     if [r for r in motor.AKTIV.values() if r.status in ("läuft", "pause")]:
         raise HTTPException(409, "Es läuft schon eine Runde. Erst beenden oder abwarten.")
     z = motor.laden(rid); wer = _wer(request)
-    if z and wer != "Roland" and (z.get("gastgeber") or "Roland") != wer: raise HTTPException(404, "Runde nicht gefunden.")
+    if z and wer != "Roli" and (z.get("gastgeber") or "Roli") != wer: raise HTTPException(404, "Runde nicht gefunden.")
     try: r = motor.nachfragen(rid, t.text.strip()[:600], wer)
     except RuntimeError as e: raise HTTPException(409, str(e))
     if not r: raise HTTPException(404, "Runde nicht gefunden.")
@@ -160,7 +160,7 @@ def nachfrage(rid: str, t: Text, request: Request):
 @app.delete("/api/runde/{rid}")
 def loeschen(rid: str, request: Request):
     z = motor.laden(rid); wer = _wer(request)
-    if z and wer != "Roland" and (z.get("gastgeber") or "Roland") != wer: raise HTTPException(404, "Runde nicht gefunden.")
+    if z and wer != "Roli" and (z.get("gastgeber") or "Roli") != wer: raise HTTPException(404, "Runde nicht gefunden.")
     try: ok = motor.loeschen(rid)
     except RuntimeError as e: raise HTTPException(409, str(e))
     if not ok: raise HTTPException(404, "Runde nicht gefunden.")
@@ -178,6 +178,38 @@ def stop(rid: str):
     r = motor.AKTIV.get(rid)
     if not r: raise HTTPException(404, "Runde nicht gefunden.")
     r.stop = True; r.pause = False; return {"ok": True}
+
+@app.post("/api/sprich")
+async def sprich(request: Request):
+    """Liest einen Beitrag mit der Hausstimme vor.
+
+    Roli am 16.09.2026: „manchmal sind die Dialoge sehr lang, was für mich Lesen sehr anstrengend
+    ist ... wenn man das einfach über die Piper-Stimme vorlesen lassen kann." Der Vorleser läuft
+    ohnehin auf 127.0.0.1:5005 für die Relay-App; wir reichen nur weiter, nichts Neues installiert.
+
+    Der Name des Sprechers wird mitgesprochen. Es gibt nur eine deutsche Stimme, deshalb ist das
+    Gesagte die einzige Möglichkeit zu hören, wer gerade dran ist.
+    """
+    d = await request.json()
+    text = (d.get("text") or "").strip()
+    wer = (d.get("wer") or "").strip()
+    if not text:
+        raise HTTPException(400, "Kein Text")
+    if len(text) > 3000:
+        text = text[:3000]
+    ansage = (wer + ". ") if wer else ""
+    try:
+        anfrage = urllib.request.Request(
+            "http://127.0.0.1:5005/",
+            data=json.dumps({"text": ansage + text}).encode(),
+            headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(anfrage, timeout=120) as antwort:
+            ton = antwort.read()
+    except Exception as e:
+        raise HTTPException(503, f"Vorleser antwortet nicht: {type(e).__name__}")
+    return Response(content=ton, media_type="audio/wav",
+                    headers={"Cache-Control": "no-store"})
+
 
 @app.get("/pdf/{name}")
 def pdf(name: str):

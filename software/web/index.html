@@ -33,6 +33,11 @@
 .kasten{background:var(--holz);border:1px solid var(--linie);border-radius:.8rem;padding:.8rem 1rem}
 .kasten h2{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:.2rem 0 .6rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .protokoll{max-height:48vh;overflow:auto}
+.hoer{background:none;border:0;cursor:pointer;font-size:.9rem;opacity:.45;padding:0 .2rem;line-height:1}
+.hoer:hover{opacity:1}
+.hoer.laeuft{opacity:1;animation:hoerpuls 1.1s ease-in-out infinite}
+.kn.laeuft{border-color:var(--akzent,#D97757)}
+@keyframes hoerpuls{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
 .zeile{display:flex;gap:.6rem;margin:.45rem 0;font-size:.9rem;line-height:1.45}.zeile img{width:2rem;height:2rem;border-radius:50%;flex:none;margin-top:.1rem}
 .zeile b{color:var(--gold)}.zeile.einwurf b{color:#7fd3a6}.zeile.einwurf{background:rgba(127,211,166,.08);border-radius:.5rem;padding:.3rem .5rem}
 .zeile.vorlage{background:rgba(120,160,220,.1);border-radius:.5rem;padding:.4rem .6rem}.zeile.vorlage b{color:#9cc1ff}.waechter{color:#ffb4a0;font-size:.8rem;margin-top:.25rem}.zeile.fazit{background:rgba(255,154,60,.1);border-radius:.5rem;padding:.4rem .6rem}.zeile.fazit b{color:var(--glut)}
@@ -48,6 +53,7 @@
 .rk svg{width:18px;height:18px}
 .rk:disabled{opacity:.4;cursor:default}
 .rk.verwerfen{background:rgba(196,60,40,.18);border:1px solid #c43c28;color:#e8654d}.rk.verwerfen:active{background:#c43c28;color:#fff}.rk.verwerfen svg{width:16px;height:16px}
+.rk.verwerfen.zurueck{background:rgba(126,231,185,.16);border-color:#7ee7b9;color:#7ee7b9}.rk.verwerfen.zurueck:active{background:#7ee7b9;color:#10231a}
 .rk.hoert{background:var(--glut);color:#fff;animation:pochen 1.4s ease-in-out infinite}
 .rk.laedt{color:var(--glut);animation:pochen 1.2s ease-in-out infinite}
 @keyframes pochen{0%,100%{box-shadow:0 0 0 0 rgba(255,154,60,.55)}50%{box-shadow:0 0 0 7px rgba(255,154,60,0)}}
@@ -81,6 +87,7 @@
 <g id="i-mikrofon" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/></g>
 <g id="i-glaetten" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3.5l1.5 3.9 3.9 1.5-3.9 1.5L11 14.3 9.5 10.4 5.6 8.9l3.9-1.5z"/><path d="M17.5 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></g>
 <g id="i-kreuz" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></g>
+<g id="i-zurueck" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7L5 11l4 4"/><path d="M5 11h8a5 5 0 1 1 0 10h-3"/></g>
 <g id="i-klammer" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></g>
 <g id="i-plus" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></g>
 <g id="i-senden" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></g>
@@ -115,7 +122,7 @@
   <div class="platz fern" style="left:40%;top:44%" data-n="fine"><img src="stammtisch/fine.png" alt=""><div class="name">Fine · Design</div></div>
   <div class="platz fern" style="left:60%;top:44%" data-n="xaver"><img src="stammtisch/xaver.png" alt=""><div class="name">Xaver · Technik</div></div>
   <div class="blase" id="blase"><div class="wer" id="blaseWer"></div><div id="blaseText"></div></div>
-  <div class="BENUTZER" id="roliLeiste" hidden><div class="feld" data-feld="einwurf"><textarea id="einwurf" rows="1" placeholder="Dein Einwurf, Roland …"></textarea><div class="feld-knoepfe"><button type="button" class="rk anhang" title="Anhängen" aria-label="Anhängen"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button><button type="button" class="rk mikro" title="Diktieren" aria-label="Diktieren"><svg viewBox="0 0 24 24"><use href="#i-mikrofon"/></svg></button><button type="button" class="rk glaetten" title="Diktat glätten: Füllwörter und Verhörer raus" aria-label="Diktat glätten"><svg viewBox="0 0 24 24"><use href="#i-glaetten"/></svg></button><button type="button" class="rk verwerfen" title="Diktat verwerfen" aria-label="Diktat verwerfen" hidden><svg viewBox="0 0 24 24"><use href="#i-kreuz"/></svg></button><div class="anh" id="anhEinwurf"></div><button type="button" class="senden-rund" id="senden" title="Einwerfen" aria-label="Einwerfen"><svg viewBox="0 0 24 24"><use href="#i-senden"/></svg></button></div></div><div class="steuer"><button class="kn" id="glocke" title="Glocke: Runde anhalten">🔔</button><button class="kn" id="stopp" title="Runde beenden">⏹</button></div></div>
+  <div class="BENUTZER" id="roliLeiste" hidden><div class="feld" data-feld="einwurf"><textarea id="einwurf" rows="1" placeholder="Dein Einwurf, Roli …"></textarea><div class="feld-knoepfe"><button type="button" class="rk anhang" title="Anhängen" aria-label="Anhängen"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button><button type="button" class="rk mikro" title="Diktieren" aria-label="Diktieren"><svg viewBox="0 0 24 24"><use href="#i-mikrofon"/></svg></button><button type="button" class="rk glaetten" title="Diktat glätten: Füllwörter und Verhörer raus" aria-label="Diktat glätten"><svg viewBox="0 0 24 24"><use href="#i-glaetten"/></svg></button><button type="button" class="rk verwerfen" title="Diktat verwerfen" aria-label="Diktat verwerfen" hidden><svg viewBox="0 0 24 24"><use href="#i-kreuz"/></svg></button><div class="anh" id="anhEinwurf"></div><button type="button" class="senden-rund" id="senden" title="Einwerfen" aria-label="Einwerfen"><svg viewBox="0 0 24 24"><use href="#i-senden"/></svg></button></div></div><div class="steuer"><button class="kn" id="glocke" title="Glocke: Runde anhalten">🔔</button><button class="kn" id="stopp" title="Runde beenden">⏹</button></div></div>
   <div class="start" id="startBox"><form id="startForm">
     <h2>Neue Runde</h2>
     <div class="feld" data-feld="thema"><textarea id="thema" placeholder="Worüber soll das Team reden? z. B. „Sollen wir den Hopfen Gin zum Hero machen und wie bewerben wir ihn zum Oktoberfest?“" required></textarea><div class="feld-knoepfe"><button type="button" class="rk anhang" title="Anhängen" aria-label="Anhängen"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button><button type="button" class="rk mikro" title="Diktieren" aria-label="Diktieren"><svg viewBox="0 0 24 24"><use href="#i-mikrofon"/></svg></button><button type="button" class="rk glaetten" title="Diktat glätten: Füllwörter und Verhörer raus" aria-label="Diktat glätten"><svg viewBox="0 0 24 24"><use href="#i-glaetten"/></svg></button><button type="button" class="rk verwerfen" title="Diktat verwerfen" aria-label="Diktat verwerfen" hidden><svg viewBox="0 0 24 24"><use href="#i-kreuz"/></svg></button><div class="anh" id="anhThema"></div><button type="submit" class="senden-rund" id="knStart" title="Runde eröffnen" aria-label="Runde eröffnen"><svg viewBox="0 0 24 24"><use href="#i-senden"/></svg></button></div></div>
@@ -124,21 +131,22 @@
   </form></div>
 </div>
 <div class="unten">
-  <div class="kasten"><h2>Protokoll <span style="margin-left:auto;display:flex;gap:.3rem"><button class="kn" id="knPdf" disabled>📄 PDF</button><button class="kn" id="knTeilen" disabled>📤 Teilen</button></span></h2><div class="protokoll" id="log"><div class="status">Noch keine Runde gewählt.</div></div></div>
+  <div class="kasten"><h2>Protokoll <span style="margin-left:auto;display:flex;gap:.3rem"><button class="kn" id="knHoeren" disabled title="Die Runde vorlesen lassen">🔊 Vorlesen</button><button class="kn" id="knPdf" disabled>📄 PDF</button><button class="kn" id="knTeilen" disabled>📤 Teilen</button></span></h2><div class="protokoll" id="log"><div class="status">Noch keine Runde gewählt.</div></div></div>
   <div class="kasten" id="bibKasten"><h2>Bibliothek</h2><ul class="bib" id="bib"></ul></div>
 </div>
 <script>
 const NAMEN={sepp:"Sepp",julia:"Julia",greta:"Greta",timo:"Timo",david:"David",sven:"Sven",basti:"Basti",fine:"Fine",xaver:"Xaver"};
 const ROLLEN={sepp:"Koordination",julia:"Werberecht",greta:"Finanzen",timo:"Marketing",david:"Export",sven:"Logistik",basti:"Vertrieb",fine:"Design",xaver:"Technik"};
 const $=id=>document.getElementById(id);
-let rid=null, gezeigt=0, tippt=false, pausiert=false, takt=null, aktuelleRunde=null, ich="Roland";
+let rid=null, gezeigt=0, tippt=false, pausiert=false, takt=null, aktuelleRunde=null, ich="Roli";
 fetch("/api/wer").then(r=>r.json()).then(w=>{ich=w.name;$("einwurf").placeholder=(nachfrage?"Nachfrage an den Tisch, ":"Dein Einwurf, ")+ich+" …";}).catch(()=>{});
 function status(t){$("statusText").textContent=t;}
 function eintragZeile(e){const z=document.createElement("div");z.className="zeile "+(e.art||"");
-  const kopf=e.wer==="BENUTZER"?(e.name||"Gastgeber"):e.wer==="vorlage"?"Tischvorlage · Recherche vor der Runde":e.wer==="hinweis"?"Hinweis":wername(e)+(e.art==="fazit"?" · Fazit":"");
-  const bild=e.wer==="BENUTZER"?'<span style="width:2rem;text-align:center">🧑</span>':e.wer==="vorlage"?'<span style="width:2rem;text-align:center">🔎</span>':e.wer==="hinweis"?'<span style="width:2rem;text-align:center">⚠︎</span>':(String(e.wer).startsWith("fk:")?`<img src="${(FK.find(f=>f.kurz===e.wer)||{}).bild||"stammtisch/gast.png"}" alt="">`:`<img src="stammtisch/${e.wer}.png" alt="">`);
+  const kopf=e.wer==="roli"?(e.name||"Gastgeber"):e.wer==="vorlage"?"Tischvorlage · Recherche vor der Runde":e.wer==="hinweis"?"Hinweis":wername(e)+(e.art==="fazit"?" · Fazit":"");
+  const bild=e.wer==="roli"?'<span style="width:2rem;text-align:center">🧑</span>':e.wer==="vorlage"?'<span style="width:2rem;text-align:center">🔎</span>':e.wer==="hinweis"?'<span style="width:2rem;text-align:center">⚠︎</span>':(String(e.wer).startsWith("fk:")?`<img src="${(FK.find(f=>f.kurz===e.wer)||{}).bild||"stammtisch/gast.png"}" alt="">`:`<img src="stammtisch/${e.wer}.png" alt="">`);
   const marke=(e.nachgesehen?' <span class="status" title="hat im Firmenwissen oder im Netz nachgesehen">🔎 nachgesehen</span>':"")+(e.waechter&&e.waechter.length?` <div class="waechter">⚠︎ Wächter: unbelegt geblieben: ${e.waechter.map(x=>x.replace(/</g,"&lt;")).join(" | ")}</div>`:"");
-  z.innerHTML=bild+`<div><b>${kopf}</b> ${e.text.replace(/</g,"&lt;").replace(/\n/g,"<br>")} <span class="status">${e.zeit||""}</span>${marke}</div>`;
+  z.innerHTML=bild+`<div><b>${kopf}</b> <button class="hoer" title="Diesen Beitrag vorlesen">🔊</button> ${e.text.replace(/</g,"&lt;").replace(/\n/g,"<br>")} <span class="status">${e.zeit||""}</span>${marke}</div>`;
+  const hk=z.querySelector(".hoer"); if(hk){hk.dataset.text=e.text; hk.dataset.wer=kopf.split(" ·")[0];}
   $("log").appendChild(z);$("log").scrollTop=$("log").scrollHeight;}
 function markiere(spricht,denkt){if(String(denkt||"").startsWith("fk:"))denkt=gastplatz(denkt);document.querySelectorAll(".platz").forEach(p=>{p.classList.toggle("spricht",p.dataset.n===spricht);p.classList.toggle("denkt",p.dataset.n===denkt&&p.dataset.n!==spricht);});}
 let FK=[];function gastplatz(kurz){const i=FK.findIndex(f=>f.kurz===kurz);return i>=0&&i<4?"gast"+(i+1):"gast1";}
@@ -147,7 +155,7 @@ function wername(e){return NAMEN[e.wer]?NAMEN[e.wer]+" · "+ROLLEN[e.wer]:(e.nam
 function sprich(e){return new Promise(res=>{const fk=String(e.wer).startsWith("fk:");const platzName=fk?gastplatz(e.wer):e.wer;if(fk&&!FK.some(f=>f.kurz===e.wer)){FK.push({kurz:e.wer,name:e.name||"Fachkraft",bild:"stammtisch/gast.png"});gaesteZeichnen();}markiere(platzName,null);const p=document.querySelector(`.platz[data-n="${platzName}"]`);const b=$("buehne").getBoundingClientRect();
   if(p){const r=p.getBoundingClientRect();const bl=$("blase");
     // Blase über dem Sprecher, aber immer im Bild: Mitte wird auf den Bühnenrand begrenzt,
-    // der Pfeil zeigt trotzdem auf den Kopf (Roland, 07.09.: am Handy lief sie links raus).
+    // der Pfeil zeigt trotzdem auf den Kopf (Roli, 07.09.: am Handy lief sie links raus).
     // Breite mit dem vollen Text messen (unsichtbar), sonst ist die Blase beim Messen noch leer und schmal
     $("blaseWer").textContent=wername(e);$("blaseText").textContent=e.text;
     bl.classList.add("mess");const bw=bl.getBoundingClientRect().width;bl.classList.remove("mess");
@@ -156,21 +164,21 @@ function sprich(e){return new Promise(res=>{const fk=String(e.wer).startsWith("f
     bl.style.setProperty("--pfeil",Math.max(14,Math.min(bw-14,bw/2+(mitte-links)))+"px");}
   $("blaseWer").textContent=wername(e)+(e.art==="fazit"?" · Fazit":"");$("blaseText").textContent="";$("blase").classList.add("an");
   let k=0,fertig=false;const ms=TEMPO[tempo].tipp;const zu=()=>{if(fertig)return;fertig=true;clearInterval(t);$("blase").classList.remove("an");$("blase").onclick=null;res();};$("blase").onclick=()=>{if(k<e.text.length){k=e.text.length;$("blaseText").textContent=e.text;clearInterval(t);setTimeout(zu,TEMPO[tempo].halt(e.text));}else zu();};const t=setInterval(()=>{$("blaseText").textContent=e.text.slice(0,++k);if(k>=e.text.length){clearInterval(t);setTimeout(zu,TEMPO[tempo].halt(e.text));}},ms);});}
-// Tempo der Sprechblasen (Roland, 10.09.: "die Schrift, die mitläuft, da komme ich nicht hinterher"): Tippen pro Zeichen und Haltezeit danach
+// Tempo der Sprechblasen (Roli, 10.09.: "die Schrift, die mitläuft, da komme ich nicht hinterher"): Tippen pro Zeichen und Haltezeit danach
 const TEMPO={gemuetlich:{tipp:45,halt:t=>Math.max(3000,t.length*28),name:"🐢 gemütlich"},normal:{tipp:30,halt:t=>Math.max(2000,t.length*16),name:"🚶 normal"},flott:{tipp:14,halt:t=>1200,name:"🐇 flott"}};
 let tempo=localStorage.getItem("stammtisch-tempo")||"gemuetlich";if(!TEMPO[tempo])tempo="gemuetlich";
 function tempoZeigen(){$("knTempo").textContent=TEMPO[tempo].name;}tempoZeigen();
 $("knTempo").onclick=()=>{const r=Object.keys(TEMPO);tempo=r[(r.indexOf(tempo)+1)%r.length];localStorage.setItem("stammtisch-tempo",tempo);tempoZeigen();};
-async function zeigeNeue(z){while(gezeigt<z.eintraege.length){const e=z.eintraege[gezeigt++];if(e.wer==="BENUTZER"||e.wer==="vorlage"||e.wer==="hinweis"){eintragZeile(e);continue;}tippt=true;await sprich(e);eintragZeile(e);tippt=false;}}
+async function zeigeNeue(z){while(gezeigt<z.eintraege.length){const e=z.eintraege[gezeigt++];if(e.wer==="roli"||e.wer==="vorlage"||e.wer==="hinweis"){eintragZeile(e);continue;}tippt=true;await sprich(e);eintragZeile(e);tippt=false;}}
 async function holen(){if(!rid||tippt)return;const a=await fetch("/api/runde/"+rid);if(!a.ok)return;const z=await a.json();aktuelleRunde=z;
   document.querySelectorAll(".platz").forEach(p=>p.classList.toggle("dabei",z.teilnehmer.includes(p.dataset.n)));
   FK=z.fachkraefte||[];gaesteZeichnen();markiere(String(z.aktuell||"").startsWith("fk:")?gastplatz(z.aktuell):z.aktuell,z.aktuell);
   await zeigeNeue(z);
   if(z.status==="fertig"){status("Runde beendet · "+z.eintraege.length+" Beiträge · Unten kannst du nachfragen.");markiere(null,null);nachfrageModus(true);clearInterval(takt);takt=null;
-    $("knPdf").disabled=!z.pdf;$("knTeilen").disabled=!z.pdf;ladeBib();}
+    $("knPdf").disabled=!z.pdf;$("knTeilen").disabled=!z.pdf;$("knHoeren").disabled=!(z.eintraege&&z.eintraege.length);ladeBib();}
   else if(z.status==="fehler"){status("Fehler: "+z.fehler);clearInterval(takt);takt=null;nachfrageModus(true);}
   else status((z.status==="pause"?"Angehalten":"Es spricht "+(z.aktuell?(NAMEN[z.aktuell]?NAMEN[z.aktuell]+" ("+ROLLEN[z.aktuell]+")":((z.fachkraefte||[]).find(f=>f.kurz===z.aktuell)||{}).name||"Fachkraft"):"…"))+" · Thema: "+z.thema);}
-async function oeffne(id,live){rid=id;gezeigt=0;$("log").innerHTML="";$("startBox").hidden=true;nachfrageModus(!live);$("knPdf").disabled=true;$("knTeilen").disabled=true;
+async function oeffne(id,live){rid=id;gezeigt=0;$("log").innerHTML="";$("startBox").hidden=true;nachfrageModus(!live);$("knHoeren").disabled=true;$("knPdf").disabled=true;$("knTeilen").disabled=true;
   if(takt)clearInterval(takt);if(live){takt=setInterval(holen,1500);}await holen();}
 $("startForm").onsubmit=async ev=>{ev.preventDefault();const t=[...document.querySelectorAll('input[name=t]:checked')].map(x=>x.value);
   const a=await fetch("/api/start",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({thema:$("thema").value,teilnehmer:t,runden:+$("runden").value,anhaenge:ANH.thema.map(a=>a.id)})});
@@ -193,7 +201,8 @@ const ANH={thema:[],einwurf:[]}; const esc=x=>String(x).replace(/</g,"&lt;");
 function anhZeichnen(feld){const box=$(feld==="thema"?"anhThema":"anhEinwurf");
   box.innerHTML=ANH[feld].map((a,i)=>`<span>📎 ${esc(a.name)} <small style="color:var(--leise)">${Math.round(a.zeichen/1000)||1} Tsd. Zeichen</small><button type="button" data-i="${i}" title="Entfernen">×</button></span>`).join("");
   box.querySelectorAll("button").forEach(b=>b.onclick=()=>{ANH[feld].splice(+b.dataset.i,1);anhZeichnen(feld);});}
-function entwurfMerken(feld){try{const v=$(feld).value;if(v.trim())localStorage.setItem("stammtisch-"+feld,v);else localStorage.removeItem("stammtisch-"+feld);}catch(e){}}
+const KREUZ={};   // je Feld die Funktion, die den Kreuz-Knopf richtig stellt
+function entwurfMerken(feld){try{const v=$(feld).value;if(v.trim())localStorage.setItem("stammtisch-"+feld,v);else localStorage.removeItem("stammtisch-"+feld);}catch(e){}if(KREUZ[feld])KREUZ[feld]();}
 ["thema","einwurf"].forEach(f=>{try{const v=localStorage.getItem("stammtisch-"+f);if(v&&!$(f).value)$(f).value=v;}catch(e){}$(f).addEventListener("input",()=>entwurfMerken(f));});
 let anhangFeld="thema";
 async function hochladen(dateien,feld){const knopf=document.querySelector(`.feld[data-feld="${feld}"] .anhang`);knopf.classList.add("laedt");
@@ -211,7 +220,26 @@ $("kachelDatei").onclick=()=>{blattZu();$("dateiWaehler").click();};
   document.querySelectorAll(".feld").forEach(g=>{
     const feld=g.dataset.feld, ziel=$(feld), mikro=g.querySelector(".mikro"), glatt=g.querySelector(".glaetten"), kreuz=g.querySelector(".verwerfen");
     g.querySelector(".anhang").onclick=()=>{anhangFeld=feld;$("anhangBlatt").hidden=false;};
-    ziel.addEventListener("input",()=>{ziel.style.height="auto";ziel.style.height=Math.min(ziel.scrollHeight,160)+"px";});
+    function hoeheAnpassen(){ziel.style.height="auto";ziel.style.height=Math.min(ziel.scrollHeight,160)+"px";}
+    // Rolis Kreuz (16.09.2026): "in dem Feld wo wir reinsprechen ein X rein zu bauen, um dann das ganze
+    // einfach zu loeschen, wenn da schon was drin stehen sollte." Es ist derselbe Knopf wie beim Diktat:
+    // waehrend das Mikrofon laeuft verwirft er nur das Diktat (Koffer-Skill diktat-im-browser), sonst
+    // leert er das Feld. Das Geloeschte bleibt 8 Sekunden zurueckholbar, sonst frisst ein Fehlgriff am
+    // Handy ein langes Diktat.
+    let will=false, zurueck=null, rueckUhr=null;
+    const kreuzBild=kreuz.querySelector("use");
+    function kreuzStellen(){
+      const holen=(zurueck!==null)&&!will;
+      kreuz.hidden=!(will||ziel.value.trim()||holen);
+      kreuz.classList.toggle("zurueck",holen);
+      kreuzBild.setAttribute("href",holen?"#i-zurueck":"#i-kreuz");
+      const t=will?"Diktat verwerfen":(holen?"Löschen rückgängig":"Feld leeren");
+      kreuz.title=t; kreuz.setAttribute("aria-label",t);
+    }
+    function rueckAus(){if(rueckUhr)clearTimeout(rueckUhr);rueckUhr=null;zurueck=null;kreuzStellen();}
+    KREUZ[feld]=kreuzStellen;
+    ziel.addEventListener("input",()=>{hoeheAnpassen();if(zurueck!==null)rueckAus();else kreuzStellen();});
+    kreuzStellen();
     // Glaetten: Fuellwoerter, Dopplungen, Verhoerer raus, ueber Rolis Abo
     glatt.onclick=async()=>{const v=ziel.value.trim();if(!v||glatt.classList.contains("laedt"))return;glatt.classList.add("laedt");
       try{const a=await fetch("/api/glaetten",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:v})});
@@ -220,18 +248,69 @@ $("kachelDatei").onclick=()=>{blattZu();$("dateiWaehler").click();};
     if(!SR){mikro.title="Diktat wird von diesem Browser nicht unterstuetzt";mikro.disabled=true;return;}
     // Diktat nach dem Relay-Muster: NICHT durchgehend zuhoeren (Android-Chrome haengt sonst jeden
     // Zwischenstand neu an), sondern satzweise erkennen und im onend neu starten, solange der Knopf aktiv ist.
-    let hoert=null, will=false, vorher="", fertig="";
-    function aus(){will=false;try{hoert&&hoert.stop();}catch(e){}mikro.classList.remove("hoert");kreuz.hidden=true;}
-    kreuz.onclick=()=>{aus();ziel.value=vorher.trimEnd();entwurfMerken(feld);};   // Diktat weg, was vorher stand bleibt
+    let hoert=null, vorher="", fertig="";
+    function aus(){will=false;try{hoert&&hoert.stop();}catch(e){}mikro.classList.remove("hoert");kreuzStellen();}
+    kreuz.onclick=()=>{
+      if(will){aus();ziel.value=vorher.trimEnd();entwurfMerken(feld);hoeheAnpassen();return;}   // Diktat weg, was vorher stand bleibt
+      if(zurueck!==null){const t=zurueck;rueckAus();ziel.value=t;entwurfMerken(feld);hoeheAnpassen();ziel.focus();return;}
+      if(!ziel.value)return;
+      zurueck=ziel.value; ziel.value=""; entwurfMerken(feld); hoeheAnpassen();
+      rueckUhr=setTimeout(rueckAus,8000);
+    };
     mikro.onclick=()=>{
       if(will){aus();ziel.value=(vorher+fertig).trimStart();entwurfMerken(feld);return;}
-      vorher=ziel.value?ziel.value.trimEnd()+" ":""; fertig=""; will=true; kreuz.hidden=false;
+      rueckAus(); vorher=ziel.value?ziel.value.trimEnd()+" ":""; fertig=""; will=true; kreuzStellen();
       function lauschen(){const r=new SR();hoert=r;r.lang="de-DE";r.interimResults=true;r.continuous=false;
         r.onstart=()=>mikro.classList.add("hoert");
         r.onresult=e=>{const l=e.results[e.results.length-1];const st=l[0].transcript;
           if(l.isFinal){fertig+=st.trim()+" ";ziel.value=(vorher+fertig).trimStart();entwurfMerken(feld);}else{ziel.value=(vorher+fertig+st).trimStart();}};
         r.onerror=ev=>{if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){aus();alert("Mikrofon nicht erlaubt. Bitte in Chrome die Mikrofon-Erlaubnis fuer diese Seite geben.");}};
-        r.onend=()=>{hoert=null;if(will){setTimeout(lauschen,150);}else{mikro.classList.remove("hoert");kreuz.hidden=true;ziel.value=(vorher+fertig).trimStart();}};
+        r.onend=()=>{hoert=null;if(will){setTimeout(lauschen,150);}else{mikro.classList.remove("hoert");ziel.value=(vorher+fertig).trimStart();kreuzStellen();}};
         try{r.start();}catch(e){aus();}}
       lauschen();};});})();
+
+// Vorlesen mit der Hausstimme. ACHTUNG: nicht sprich() nennen — so heisst schon die Funktion,
+// die eine Sprechblase auf der Buehne anzeigt (Zeile ~153). Der Namenskonflikt hat am 16.09.2026
+// die ganze Buehne lahmgelegt: jede Sprechblase landete beim Vorleser statt am Tisch. Roli am 16.09.2026: die Dialoge sind lang und anstrengend zu lesen.
+// Es gibt nur eine deutsche Stimme, deshalb wird der Name des Sprechers mitgesprochen.
+let tonSpieler=null, vorleseKette=null;
+function tonAus(){ if(tonSpieler){tonSpieler.pause(); tonSpieler=null;} vorleseKette=null;
+  document.querySelectorAll(".hoer.laeuft").forEach(k=>k.classList.remove("laeuft"));
+  const k=$("knHoeren"); if(k){k.textContent="🔊 Vorlesen"; k.classList.remove("laeuft");} }
+async function vorlesen(text, wer, knopf){
+  if(!text) return;
+  const a=await fetch("/api/sprich",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({text:text, wer:wer||""})});
+  if(!a.ok){ if(knopf) knopf.title="Vorleser antwortet nicht"; return; }
+  const url=URL.createObjectURL(await a.blob());
+  return new Promise(fertig=>{
+    tonSpieler=new Audio(url);
+    if(knopf) knopf.classList.add("laeuft");
+    tonSpieler.onended=()=>{URL.revokeObjectURL(url); if(knopf)knopf.classList.remove("laeuft"); fertig();};
+    tonSpieler.onerror=()=>{URL.revokeObjectURL(url); if(knopf)knopf.classList.remove("laeuft"); fertig();};
+    tonSpieler.play().catch(()=>fertig());
+  });
+}
+document.addEventListener("click", async ev=>{
+  const k=ev.target.closest(".hoer"); if(!k) return;
+  ev.stopPropagation();
+  if(k.classList.contains("laeuft")){ tonAus(); return; }
+  tonAus();
+  await vorlesen(k.dataset.text, k.dataset.wer, k);
+});
+document.addEventListener("DOMContentLoaded",()=>{
+  const k=$("knHoeren"); if(!k) return;
+  k.addEventListener("click", async ()=>{
+    if(vorleseKette){ tonAus(); return; }
+    const knoepfe=[...document.querySelectorAll("#log .hoer")];
+    if(!knoepfe.length) return;
+    vorleseKette=true; k.textContent="⏹ Stopp"; k.classList.add("laeuft");
+    for(const kn of knoepfe){
+      if(!vorleseKette) break;
+      kn.scrollIntoView({block:"center",behavior:"smooth"});
+      await vorlesen(kn.dataset.text, kn.dataset.wer, kn);
+    }
+    tonAus();
+  });
+});
 </script></body></html>

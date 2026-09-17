@@ -1,4 +1,4 @@
-"""Wissens-Auszug fürs Gespräch: sucht in Rolis Zweitgehirn die Notizen, die zum Thema
+"""Wissens-Auszug fürs Gespräch: sucht in dem eigenen Zweitgehirn die Notizen, die zum Thema
 passen, und liefert kurze Auszüge. Bewusst simpel (Wortüberschneidung), das reicht für
 ein paar hundert Notizen und braucht keinen Vektor-Dienst."""
 import re, pathlib
@@ -27,7 +27,7 @@ def auszug(thema, max_notizen=6, max_zeichen=1400):
     treffer.sort(key=lambda x: -x[0])
     teile = []
     # Grundwissen zur Firma immer dabei, damit niemand "neu für uns" sagt, was es längst gibt
-    for g in ["06 Firmenwissen/10 Strategie/Rolis Haeuser und Marken.md", "06 Firmenwissen/04 Produkte/Krugmeister.md", "06 Firmenwissen/04 Produkte/Maßkrugflasche.md",
+    for g in ["06 Firmenwissen/10 Strategie/Haeuser und Marken.md", "06 Firmenwissen/04 Produkte/Krugmeister.md", "06 Firmenwissen/04 Produkte/Maßkrugflasche.md",
               "06 Firmenwissen/04 Produkte/Krugmeister Weitere Sorten und Merchandise.md"]:
         gp = pathlib.Path("/home/BENUTZER/Notizen") / g
         if gp.exists():

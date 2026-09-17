@@ -53,11 +53,33 @@ bleibt, steht sichtbar unter dem Beitrag.
 **Es kostet fast nichts.** Die Runden laufen über das normale Abo, nicht über bezahlte Aufrufe. Eine
 Runde mit fünf Teilnehmern und drei Durchgängen dauert je nach Tempo zehn bis zwanzig Minuten.
 
+**Vorlesen, weil lange Gespräche am Handy anstrengend sind.** Jeder Beitrag hat einen kleinen
+Lautsprecher, und oben im Protokoll sitzt ein Knopf, der die ganze Runde nacheinander vorliest, mit
+Stopp und mitlaufendem Bildlauf. Das läuft über einen lokalen Vorlese-Dienst auf der eigenen
+Maschine, nichts davon geht ins Netz. Weil es nur eine deutsche Stimme gibt, sagt der Vorleser vor
+jedem Beitrag, wer spricht.
+
+**Eingeben wie im Messenger.** Das Eingabefeld hat Mikrofon, Anhang, einen Knopf zum Glätten des
+Diktats (Füllwörter und Verhörer raus) und ein Kreuz, das das Feld in einem Griff leert. Das
+Gelöschte bleibt acht Sekunden zurückholbar, damit ein Fehlgriff am Handy kein langes Diktat
+frisst. Während ein Diktat läuft, verwirft dasselbe Kreuz nur das Diktat und stellt her, was vorher
+im Feld stand.
+
 ## Was du dafür brauchst
 
 Einen kleinen Linux-Server, auf dem Claude Code angemeldet ist. Python. Einen Ordner mit Notizen,
 aus dem die Kollegen ihr Firmenwissen ziehen. Mehr nicht. Ein Webserver davor ist empfehlenswert,
 wenn du vom Handy zusehen willst.
+
+Zwei Dinge sind freiwillig. Das **Vorlesen** braucht einen Vorlese-Dienst auf derselben Maschine,
+der auf `127.0.0.1:5005` einen kurzen Text annimmt und eine WAV-Datei zurückgibt; wir benutzen dafür
+Piper mit einer deutschen Stimme. Fehlt der Dienst, bleibt der Rest vollständig nutzbar, nur der
+Lautsprecher antwortet nicht. Das **Diktat** im Eingabefeld ist die Spracherkennung des Browsers,
+läuft also nur in Chrome und schickt den Ton an Google; wer das nicht will, tippt.
+
+Und eines ist kein Muss, aber eine Entscheidung wert: Der Motor kann die Beiträge entweder über das
+**angemeldete Abo** erzeugen (so läuft es bei uns) oder über einen bezahlten Dienst als Ausweichweg,
+wenn das Abo gerade nicht kann. Beides steht in einer Einstellung, standardmäßig ist das Abo gewählt.
 
 ## Eine ehrliche Einordnung
 
